@@ -58,7 +58,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="index.html" />
-    <Content Include="j\3dcnv.js" />
+    <Content Include="j\sxs3d_cnv_solo.js" />
+    <Content Include="j\sxs3d_cnv_duo.js" />
     <Content Include="s\3dcnv.css" />
     <Content Include="Web.config" />
   </ItemGroup>
