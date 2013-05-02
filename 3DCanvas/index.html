@@ -3,19 +3,28 @@
 <head>
     <title>S3D Canvas</title>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-    <script src="j/sxs3d_cnv_solo.js"></script>
-    <!--script src="j/sxs3d_cnv_duo.js"></--script-->
+    <!--script src="j/sxs3d_cnv_solo.js"></script-->
+    <script src="j/sxs3d_cnv_duo.js"></script>
     <link href="s/3dcnv.css" rel="stylesheet" />
 
     <style>
         #miCanvas {
-
+            padding:0px;
+            margin:0px;
         }
+      #dobleCnv
+      {
+        display:block;
+        clear:both;
+        width:1920;
+      }
     </style>
 </head>
 <body>
-    <canvas id="miCanvas1" width="1910" height="1080"></canvas>
-    <!--canvas id="miCanvas2" width="900" height="1080"></canvas-->
+  <div id="dobleCnv">
+    <canvas id="miCanvas1" width="960" height="500"></canvas>
+    <canvas id="miCanvas2" width="960" height="500"></canvas>
+  </div>
 
 </body>
 </html>
