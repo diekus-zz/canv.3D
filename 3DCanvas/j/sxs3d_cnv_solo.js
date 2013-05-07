@@ -112,7 +112,6 @@ function startLeftClip() {
     ctx.clip();
 }
 
-
 //sets right clipping in the canvas 
 function startRightClip() {
 

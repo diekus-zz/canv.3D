@@ -61,6 +61,7 @@
     <Content Include="indexDUO.html" />
     <Content Include="j\duoExamples.js" />
     <Content Include="j\soloExample.js" />
+    <Content Include="j\sxs3d_cnv_anim.js" />
     <Content Include="j\sxs3d_cnv_solo.js" />
     <Content Include="j\sxs3d_cnv_duo.js" />
     <Content Include="s\3dcnv.css" />

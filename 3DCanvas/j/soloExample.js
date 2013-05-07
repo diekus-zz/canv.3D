@@ -1,9 +1,11 @@
-﻿/** SXS 3D CNV DUO EXAMPLE PAGE **/
+﻿/** SXS 3D CNV SOLO EXAMPLE PAGE **/
 
 //main function
 function sxs3dcnv_main() {
-    objectField(200, 35, 3);
+    //objectField(200, 35, 3); //example object field drawing
     //your code goes here
+
+    sxs3dcnv_anim_main(); //function to call to start animation loop
 }
 
 //example drawing. Star fields
