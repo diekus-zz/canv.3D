@@ -4,3 +4,12 @@
 .canvasDebugView {
     border-bottom: 5px dotted salmon;
 }
+#miCanvas {
+    padding:0px;
+    margin:0px;
+}
+#dobleCnv{
+    display:block;
+    clear:both;
+    width:1920px;
+}

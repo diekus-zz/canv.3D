@@ -38,44 +38,36 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Web.DynamicData" />
-    <Reference Include="System.Web.Entity" />
-    <Reference Include="System.Web.ApplicationServices" />
-    <Reference Include="System.ComponentModel.DataAnnotations" />
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="System.Web" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Configuration" />
-    <Reference Include="System.Web.Services" />
-    <Reference Include="System.EnterpriseServices" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="3dweb.html" />
+    <Content Include="cnvChallenge.html" />
     <Content Include="indexSOLO.html" />
     <Content Include="indexDUO.html" />
-    <Content Include="j\duoExamples.js" />
+    <Content Include="j\3dsjq\alpha.js" />
+    <Content Include="j\3dsjq\buildContentOverlay.js" />
+    <Content Include="j\3dsjq\buildMirroring.js" />
+    <Content Include="j\3dsjq\buildZPlane.js" />
+    <Content Include="j\3dsjq\cloneContent.js" />
+    <Content Include="j\3dsjq\stylesAdaptation.js" />
+    <Content Include="j\cnvChallenge.js" />
+    <Content Include="j\duoExample.js" />
+    <Content Include="j\paisaje.js" />
     <Content Include="j\soloExample.js" />
-    <Content Include="j\sxs3d_cnv_anim.js" />
-    <Content Include="j\sxs3d_cnv_solo.js" />
-    <Content Include="j\sxs3d_cnv_duo.js" />
+    <Content Include="j\sxs3dcnv\sxs3d_cnv_anim_duo.js" />
+    <Content Include="j\sxs3dcnv\sxs3d_cnv_anim_solo.js" />
+    <Content Include="j\sxs3dcnv\sxs3d_cnv_duo.js" />
+    <Content Include="j\sxs3dcnv\sxs3d_cnv_solo.js" />
     <Content Include="s\3dcnv.css" />
-    <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Web.Debug.config">
-      <DependentUpon>Web.config</DependentUpon>
+    <Content Include="web.config" />
+    <None Include="web.Debug.config">
+      <DependentUpon>web.config</DependentUpon>
     </None>
-    <None Include="Web.Release.config">
-      <DependentUpon>Web.config</DependentUpon>
+    <None Include="web.Release.config">
+      <DependentUpon>web.config</DependentUpon>
     </None>
   </ItemGroup>
   <PropertyGroup>
