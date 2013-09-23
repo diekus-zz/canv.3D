@@ -2,7 +2,7 @@
 //HTML5 S3D canvas drawing toolkit
 // Author: diekus
 //date of creation: 5/4/2013
-//date of last modification: 3/5/2013
+//date of last modification: 23/9/2013
 //This is pre-release code. It needs cleanup and structure. Working on it. 
 
 //global variables
@@ -10,13 +10,21 @@ var w = window;                         // window object
 var miCanvas = null;                    // jQuery object for canvas
 var jsCanvas = null;                    // DOM element for canvas
 var ctx = null;                         // canvas drawing context
-var fnd = null;                         // background images for the canvas
 var imgsPreloaded = true;               // specifies if the drawings on a canvas are ready to start [image preloading problems]
 var resPreloaded = false;               //
 var listoBg = false;                    // specifies if the background image has being loaded
 var mainHandler = -1;                   // defines the handler that allows the drawing to begin. After all resources are preloaded
+var imagesForDrawing = null;            //array that will contain the images that are needed for drawing
 
 //starts the 3d canvas script
+$(document).ready(function () {                   //addition of images in the html code
+    //if images are required, they must be preloaded in the script that draws. The most exist in an array named imagesForDrawing
+    if (imagesForDrawing == null)
+        console.log('You must create an array to store the images!');
+    else
+        preloadImagesForDrawing(imagesForDrawing);
+});
+
 $(document).ready(function () {
     init();
 });
@@ -25,6 +33,16 @@ function init() {
     prepHTMLDoc();
     prep3DCanvas('miCanvas1', null);
     sxs3dcnv_main();
+}
+
+//preloads images and hides them in html code to be available immediately for drawing
+function preloadImagesForDrawing(arrImgs) {
+    var ind = 1;
+    $.each(arrImgs, function (ind, src) {
+        $("body").prepend("<img class='img-src-preload' id='img_" + ind + "' src='" + src + "' />");
+        $('.img-src-preload').css('display', 'none');
+        ind++;
+    });
 }
 
 //prepares the html document to acomodate a side by side experience
@@ -42,10 +60,9 @@ function prepHTMLDoc() {
 }
 
 //prepares and initializes canvas for side by side drawing
-function prep3DCanvas(pCnvName, pBgImage) {
+function prep3DCanvas(pCnvName) {
     jsCanvas = document.getElementById(pCnvName);
     ctx = jsCanvas.getContext('2d');
-    paintBG(pBgImage);
     miCanvas = $(pCnvName);
     miCanvas.attr({ width: w.innerWidth, height: w.innerHeight });
 }
@@ -69,24 +86,22 @@ function imagesPreloaded() {
     return imgsPreloaded;
 }
 
-//paints a background  
-function paintBG(pSrc) {
+//draws an image
+/*
+ATTENTION: In order to draw an image, these most be preloaded first due to downloading latency. The way this is implemented to make sure they are already in the browser is to create them in <img> tags and hide them.
+Use the preloadImgs method to get them into the webpage.
+*/
+function s3DImage(pImg, pPosX, pPosY, pHorOffset) {
     ctx.save();
     ctx.scale(0.5, 1);
-    //loads the bg image
-    fnd = new Image();
-    fnd.onload = function () {
-        //draws the image
-        ctx.drawImage(fnd, 0, 0);
-        ctx.drawImage(fnd, jsCanvas.width / 2, 0);
-        listoBg = true;
-    };
-    fnd.src = pSrc;
+    //draws the image
+    ctx.drawImage(pImg, pPosX + pHorOffset, pPosY);
+    ctx.drawImage(pImg, pPosX + (jsCanvas.width / 2) - pHorOffset, pPosY);
     ctx.restore();
 }
 
-//draws an image
-function s3DImage(pSrc, pPosX, pPosY, pHorOffset) {
+//draws an image from a url. Depending on loading times drawing operations might be faster on the canvas. It is recomended to use s3DImage
+function s3DImageFromURL(pSrc, pPosX, pPosY, pHorOffset) {
     ctx.save();
     ctx.scale(0.5, 1);
     //loads the bg image

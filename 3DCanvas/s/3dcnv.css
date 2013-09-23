@@ -4,6 +4,9 @@
 .canvasDebugView {
     border-bottom: 5px dotted salmon;
 }
+.img-src-preload {
+    visibility:collapse;
+}
 #miCanvas {
     padding:0px;
     margin:0px;
@@ -13,3 +16,4 @@
     clear:both;
     width:1920px;
 }
+

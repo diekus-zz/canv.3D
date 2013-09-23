@@ -2,7 +2,7 @@
 //HTML5 S3D dual canvas drawing toolkit
 // Author: diekus
 //date of creation: 25/4/2013
-//date of last modification: 3/5/2013
+//date of last modification: 23/9/2013
 //This is pre-release code. It needs cleanup and structure. Working on it. 
 
 //global variables
@@ -11,25 +11,44 @@ var jsCanvas1 = null;                   // DOM element for first canvas
 var jsCanvas2 = null;                   // DOM element for second canvas
 var ctx1 = null;                        // first canvas drawing context
 var ctx2 = null;                        // seconds canvas drawing context
-var fnd = null;                         // background images for the canvas
 var imgsPreloaded = true;               // specifies if the drawings on a canvas are ready to start [image preloading problems]
 var resPreloaded = false; 
 var listoBg = false;                    // specifies if the background image has being loaded
-var mainHandler = -1;                   // defines the handler that allows the drawing to begin. After all resources are preloaded
+var imagesForDrawing = null;            //array that will contain the images that are needed for drawing
+
 
 //starts the 3d canvas script
-$(document).ready(function () {
+$(document).ready( function () {                   //addition of images in the html code
+    //if images are required, they must be preloaded in the script that draws. The most exist in an array named imagesForDrawing
+    if (imagesForDrawing == null)
+        console.log('You must create an array to store the images!');
+    else
+        preloadImagesForDrawing(imagesForDrawing);
+});
+
+
+$(window).load(function () {            //once everything is loaded, including the images
     init('sxs3d_');
 });
 
 function init(prefix) {
-    prepHTMLDoc();                          // clears default css properties of HTML elements
+    prepHTMLDoc();                       // clears default css properties of HTML elements
 
     var target = 'cnv';
     var clone = prefix + target;
 
-    prep3DCanvas(target, clone, null);
+    prep3DCanvas(target, clone);
     sxs3dcnv_main();
+}
+
+//preloads images and hides them in html code to be available immediately for drawing
+function preloadImagesForDrawing(arrImgs) {
+    var ind = 1;
+    $.each(arrImgs, function (ind, src) {
+        $("body").prepend("<img class='img-src-preload' id='img_" + ind + "' src='" + src + "' />");
+        $('.img-src-preload').css('display', 'none');
+        ind++;
+    });
 }
 
 //prepares the html document to acomodate a side by side experience
@@ -47,7 +66,7 @@ function prepHTMLDoc() {
 }
 
 //prepares and initializes canvases for side by side drawing
-function prep3DCanvas(pCnvName1, pCnvName2, pBgImage) {
+function prep3DCanvas(pCnvName1, pCnvName2) {
     jsCanvas1 = document.getElementById(pCnvName1);
     jsCanvas2 = document.getElementById(pCnvName2);
     //gets 2d drawing context for the canvases
@@ -56,32 +75,11 @@ function prep3DCanvas(pCnvName1, pCnvName2, pBgImage) {
     //deals with sizing issues
     jsCanvas1.width = jsCanvas1.width / 2;
     jsCanvas2.width = jsCanvas2.width / 2;
-    //draws bgimage if needed
-    if(pBgImage != null){
-        paintBG(pBgImage);
-    }
 }
 
 //converts from degrees to radians
 function deg2Rad(degrees) {
     return degrees * Math.PI / 180;
-}
-
-//NEEDS CHECK
-//paints a background  
-function paintBG(pSrc) {
-    ctx1.save();
-    ctx1.scale(0.5, 1);
-    //loads the bg image
-    fnd = new Image();
-    fnd.onload = function () {
-        //draws the image
-        //ctx1.drawImage(fnd, 0, 0);
-        //ctx1.drawImage(fnd, jsCanvas.width / 2, 0);
-        listoBg = true;
-    };
-    fnd.src = pSrc;
-    ctx1.restore();
 }
 
 //performs a dual canvas save
@@ -96,9 +94,22 @@ function duoRestore() {
     ctx2.restore();
 }
 
-//image needs to check source
 //draws an image
-function s3DImage(pSrc, pPosX, pPosY, pHorOffset) {
+/*
+ATTENTION: In order to draw an image, these most be preloaded first due to downloading latency. The way this is implemented to make sure they are already in the browser is to create them in <img> tags and hide them.
+Use the preloadImgs method to get them into the webpage.
+*/
+function s3DImage(pImg, pPosX, pPosY, pHorOffset) {
+    duoSave();
+    ctx1.scale(0.5, 1);
+    ctx2.scale(0.5, 1);
+    ctx1.drawImage(pImg, pPosX + pHorOffset, pPosY);
+    ctx2.drawImage(pImg, pPosX - pHorOffset, pPosY);
+    duoRestore();
+}
+
+//draws an image from a url. Depending on loading times drawing operations might be faster on the canvas. It is recomended to use s3DImage
+function s3DImageFromURL(pSrc, pPosX, pPosY, pHorOffset) {
     duoSave();
     ctx1.scale(0.5, 1);
     ctx2.scale(0.5, 1);
@@ -326,3 +337,5 @@ function duoLineStyleDef(pWidth, pCap, pJoin, pMiter) {
     ctx1.miterLimit = pMiter;
     ctx2miterLimit = pMiter;
 }
+
+  

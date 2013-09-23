@@ -19,8 +19,6 @@ function init_sxs3dcnv_anim() {
     cWidth = jsCanvas1.width;
 
     framerate = 100;
-
-
 }
 
 function sxs3dcnv_anim_main() {
@@ -53,9 +51,7 @@ function gDraw() {
 
     //redraw your objects
     paisaje();
-
     //end example // your drawing code ends here
-    
 }
 
 //stops the ongoing animation
