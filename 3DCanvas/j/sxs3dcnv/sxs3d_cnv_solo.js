@@ -227,6 +227,13 @@ function s3DText(pText, pFontStyle, pIsFilled, pPosX, pPosY, pHorOffset) {
     ctx.restore();
 }
 
+//extracts the content of the canvas as a PNG
+function canvasShot() {
+    var cnvShot = document.createElement("img");
+    cnvShot.src = canvas.toDataURL();
+    document.body.appendChild(cnvShot);
+}
+
 //draws a s3D poligon
 function s3DPolygon(pCentX, pCentY, pRadius, pSides, pHorOffset) {
     startLeftClip();
