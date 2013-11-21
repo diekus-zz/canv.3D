@@ -14,7 +14,7 @@ var imgsPreloaded = true;               // specifies if the drawings on a canvas
 var jsCanvases = null;                  // DOM canvas elements for each canvas to be drawn on
 var imagesForDrawing = null;            // array that will contain the images that are needed for drawing
 var activeDrawingCanvas = -1;           // specifies the ACTIVE drawing canvas
-var canvasNames = new Array();
+var canvasNames = new Array();          // array that contains the names of the canvases that will be drawn upon. Layers of canvases
 
 // starts the 3d canvas script. the solo canvases must be initialized before this point
 function startSoloCanvas(){
@@ -324,9 +324,13 @@ function gUpdate() {
 
 //draws - part of game-like loop for animation
 function gDraw() {
-    //ctx.clearRect(0, 0, cWidth, cHeight);   // do not remove this line to avoid ghosting/repainting
+    ctx.clearRect(0, 0, cWidth, cHeight);   // do not remove this line to avoid ghosting/repainting
 
-    //your redrawing code goes here
+    //start example // replace with your code here
+
+    //redraw your objects
+    
+    //end example // your drawing code ends here
 }
 
 //stops the ongoing animation

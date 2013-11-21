@@ -1,13 +1,12 @@
 ﻿//SXS 3D CNV DUO
 //HTML5 S3D dual canvas drawing toolkit
-// Author: diekus
+//Author: diekus
 //date of creation: 25/4/2013
-//date of last modification: 11/10/2013
+//date of last modification: 21/11/2013
 //This is pre-release code. It needs cleanup and structure. Working on it. 
 /*Can manage now several sets of canvases on a page!*/
 
 //global variables
-//var miCanvas = null;                  // jQuery object for canvas
 var jsCanvas1 = null;                   // DOM element for first ACTIVE canvas
 var jsCanvas2 = null;                   // DOM element for second ACTIVE canvas
 var ctx1 = null;                        // first ACTIVE canvas drawing context
@@ -16,6 +15,7 @@ var jsCanvases = null;                  // DOM canvas elements for each canvas t
 var imgsPreloaded = true;               // specifies if the drawings on a canvas are ready to start [image preloading problems]
 var imagesForDrawing = null;            //array that will contain the images that are needed for drawing
 var activeDrawingCanvas = -1;           // specifies the ACTIVE drawing canvas
+var canvasNames = new Array();          // array that contains the names of the canvases that will be drawn upon. Layers of canvases
 
 //starts the 3d canvas script
 function startDuoCanvas(){
@@ -32,9 +32,8 @@ function init() {
     //prepares all the canvases on the document
     jsCanvases = new Array(canvasNames.length);
     for (icnv = 0; icnv < canvasNames.length; icnv = icnv + 2) {
-        console.log('preparing canvas ' + canvasNames[icnv] + 'clone');
+        console.log('preparing canvas ' + canvasNames[icnv] + ' clone');
         jsCanvases[icnv] = prep3DCanvas(canvasNames[icnv], 'sxs3d_' + canvasNames[icnv]); //at this point we have an array with subarrays of 4. (canvas and clone, ctx and clone)
-
     }
     changeActiveCtx(0); // first *SET* canvas (0 and 1)
 
@@ -291,15 +290,15 @@ function duoLineCap(pLCap) {
 }
 
 //performs a dual line join styling
-function duoLineCap(pLJoin) {
-    ctx1.lineCap = pLJoin;
-    ctx2.lineCap = pLJoin;
+function duoLineJoin(pLJoin) {
+    ctx1.lineJoin = pLJoin;
+    ctx2.lineJoin = pLJoin;
 }
 
 //performs a dual line width styling
 function duoLineWidth(pLW) {
-    ctx1.lineCap = pLW;
-    ctx2.lineCap = pLW;
+    ctx1.lineWidth = pLW;
+    ctx2.lineWidth = pLW;
 }
 
 //performs a dual mitter limit styling
@@ -345,15 +344,9 @@ function duoStrokeStyle(pStyle) {
 }
 
 //clears both canvases
-function duoclearRect(px, py, cWidth, cHeight) {
+function duoClearRect(px, py, cWidth, cHeight) {
     ctx1.clearRect(px, py, cWidth, cHeight);
     ctx2.clearRect(px, py, cWidth, cHeight);
-}
-
-//sets a dual canvas stroke style
-function duoLineJoin(pStyle) {
-    ctx1.lineJoin = pStyle;
-    ctx2.linJoin = pStyle;
 }
 
 //sets a dual canvas line style definition
@@ -368,4 +361,67 @@ function duoLineStyleDef(pWidth, pCap, pJoin, pMiter) {
     ctx2miterLimit = pMiter;
 }
 
-  
+//SXS 3D CNV ANIM
+//animation structure for HTML5 S3D canvas drawing toolkit
+// Author: diekus
+//date of creation: 8/7/2013
+//date of last modification: 8/7/2013
+//This is pre-release code. It needs cleanup and structure. Working on it. 
+//This works based on the game loop idea. It updates code/variables/positions and then draws upon this.
+
+//variables
+var cHeight = null;
+var cWidth = null;
+var framerate = 1000;
+
+//user defined animation variables go here
+
+
+function init_sxs3dcnv_anim() {
+
+    cHeight = jsCanvas1.height;
+    cWidth = jsCanvas1.width;
+
+    framerate = 100;
+}
+
+function sxs3dcnv_anim_main() {
+    //initializes the animation parameters
+    init_sxs3dcnv_anim();
+
+    cloudGenerator(8); //example code. initializes drawings
+
+    var intLoop = self.setInterval(function () { gUpdate(); }, framerate);
+}
+
+//updates - part of game-like loop for animation
+function gUpdate() {
+
+    //start example // replace with your code here
+
+    //update variables to move and animate your objects
+    updatePaisaje();
+
+    //end example // your drawing code ends here
+
+    gDraw(); //do not remove this line
+}
+
+//draws - part of game-like loop for animation
+function gDraw() {
+    duoClearRect(0, 0, cWidth, cHeight);            // do not remove this line to avoid ghosting/repainting //DUO
+
+    //start example // replace with your code here
+
+    //redraw your objects
+    paisaje();
+    //end example // your drawing code ends here
+}
+
+//stops the ongoing animation
+function fermata() {
+    clearInterval(intLoop);
+}
+
+/***************************************************** user defined functions below **/
+//your code here. Recommendation: don't mix everything up! Things have been kept nice and tidy by calling functions and 
