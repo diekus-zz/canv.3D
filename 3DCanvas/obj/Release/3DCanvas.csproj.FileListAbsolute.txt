@@ -1,5 +1,0 @@
-C:\Users\Diego\SkyDrive\PhD\Experiments\3DCanvas\3DCanvas\bin\3DCanvas.dll
-C:\Users\Diego\SkyDrive\PhD\Experiments\3DCanvas\3DCanvas\bin\3DCanvas.pdb
-C:\Users\Diego\SkyDrive\PhD\Experiments\3DCanvas\3DCanvas\obj\Release\3DCanvas.dll
-C:\Users\Diego\SkyDrive\PhD\Experiments\3DCanvas\3DCanvas\obj\Release\3DCanvas.pdb
-C:\Users\Diego\SkyDrive\PhD\Experiments\3DCanvas\3DCanvas\obj\Release\3DCanvas.csprojResolveAssemblyReference.cache

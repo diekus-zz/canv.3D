@@ -1,0 +1,13 @@
+﻿//SXS 3D CNV ISSUES
+//HTML5 S3D canvas drawing toolkit
+// Author: diekus
+//date of creation: 5/4/2013
+//date of last modification: 16/10/2013
+//This is pre-release code. It needs cleanup and structure. Working on it. 
+
+ISSUES:
+X 1- Canvas size cannot be calculated on the fly. Percentages will pixelate inner drawings.
+X 2- images need preloading. 
+X 3- is a background really needed? It's just another element drawn. Doesn't make sense for animation. DONE
+4- RequestAnimationFrame
+X 5- Multiple canvases on a page drawing.

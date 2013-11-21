@@ -1,12 +1,21 @@
 ﻿/** SXS 3D CNV SOLO EXAMPLE PAGE **/
 
+//starts SXS3DCNV SOLO. Main entrance point
+$(document).ready(function () {
+    //ready canvas names
+    canvasNames[0] = 'miCanvas1';
+    startSoloCanvas(); //do not remove this line
+});
+
 //main function
 function sxs3dcnv_main() {
-    //objectField(200, 35, 3); //example object field drawing
+    objectField(200, 35, 0); //EXAMPLE object field drawing
     //your code goes here
-
-    sxs3dcnv_anim_main(); //function to call to start animation loop
 }
+
+/**
+BENEATH THIS LINE IS A SIMPLE EXAMPLE OF STEREOSCOPIC 3D DRAWING. REPLACE WITH YOUR ACTUAL CODE.
+**/
 
 //example drawing. Star fields
 function objectField(pQuant, maxRadius, objectType) {

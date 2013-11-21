@@ -2,42 +2,43 @@
 //HTML5 S3D dual canvas drawing toolkit
 // Author: diekus
 //date of creation: 25/4/2013
-//date of last modification: 23/9/2013
+//date of last modification: 11/10/2013
 //This is pre-release code. It needs cleanup and structure. Working on it. 
+/*Can manage now several sets of canvases on a page!*/
 
 //global variables
 //var miCanvas = null;                  // jQuery object for canvas
-var jsCanvas1 = null;                   // DOM element for first canvas
-var jsCanvas2 = null;                   // DOM element for second canvas
-var ctx1 = null;                        // first canvas drawing context
-var ctx2 = null;                        // seconds canvas drawing context
+var jsCanvas1 = null;                   // DOM element for first ACTIVE canvas
+var jsCanvas2 = null;                   // DOM element for second ACTIVE canvas
+var ctx1 = null;                        // first ACTIVE canvas drawing context
+var ctx2 = null;                        // second ACTIVE canvas drawing context
+var jsCanvases = null;                  // DOM canvas elements for each canvas to be drawn on
 var imgsPreloaded = true;               // specifies if the drawings on a canvas are ready to start [image preloading problems]
-var resPreloaded = false; 
-var listoBg = false;                    // specifies if the background image has being loaded
 var imagesForDrawing = null;            //array that will contain the images that are needed for drawing
-
+var activeDrawingCanvas = -1;           // specifies the ACTIVE drawing canvas
 
 //starts the 3d canvas script
-$(document).ready( function () {                   //addition of images in the html code
+function startDuoCanvas(){
     //if images are required, they must be preloaded in the script that draws. The most exist in an array named imagesForDrawing
     if (imagesForDrawing == null)
         console.log('You must create an array to store the images!');
     else
         preloadImagesForDrawing(imagesForDrawing);
-});
-
-
-$(window).load(function () {            //once everything is loaded, including the images
     init('sxs3d_');
-});
+}
 
-function init(prefix) {
-    prepHTMLDoc();                       // clears default css properties of HTML elements
+function init() {
+    prepHTMLDoc(); // clears default css properties of HTML elements
+    //prepares all the canvases on the document
+    jsCanvases = new Array(canvasNames.length);
+    for (icnv = 0; icnv < canvasNames.length; icnv = icnv + 2) {
+        console.log('preparing canvas ' + canvasNames[icnv] + 'clone');
+        jsCanvases[icnv] = prep3DCanvas(canvasNames[icnv], 'sxs3d_' + canvasNames[icnv]); //at this point we have an array with subarrays of 4. (canvas and clone, ctx and clone)
 
-    var target = 'cnv';
-    var clone = prefix + target;
+    }
+    changeActiveCtx(0); // first *SET* canvas (0 and 1)
 
-    prep3DCanvas(target, clone);
+    //main 
     sxs3dcnv_main();
 }
 
@@ -65,16 +66,45 @@ function prepHTMLDoc() {
         });
 }
 
-//prepares and initializes canvases for side by side drawing
+//prepares and initializes canvases for side by side drawing.
+//returns an array with both canvases
 function prep3DCanvas(pCnvName1, pCnvName2) {
-    jsCanvas1 = document.getElementById(pCnvName1);
-    jsCanvas2 = document.getElementById(pCnvName2);
+    var tjsCanvas1 = document.getElementById(pCnvName1);
+    var tjsCanvas2 = document.getElementById(pCnvName2);
     //gets 2d drawing context for the canvases
-    ctx1 = jsCanvas1.getContext('2d');
-    ctx2 = jsCanvas2.getContext('2d');
+    var tctx1 = tjsCanvas1.getContext('2d');
+    var tctx2 = tjsCanvas2.getContext('2d');
     //deals with sizing issues
-    jsCanvas1.width = jsCanvas1.width / 2;
-    jsCanvas2.width = jsCanvas2.width / 2;
+    tjsCanvas1.width = tjsCanvas1.width / 2;
+    tjsCanvas2.width = tjsCanvas2.width / 2;
+    var objTCanvas = new Array(4);
+    objTCanvas[0] = tjsCanvas1;                     //original canvas
+    objTCanvas[2] = tjsCanvas2;                     //clone canvas
+    objTCanvas[1] = tctx1;                          //original context
+    objTCanvas[3] = tctx2;                          //clone context
+    return objTCanvas;
+}
+
+//changes the active *SET* of drawing context. By default it is the first canvas in the array
+function changeActiveCtx(n) {
+    try {
+        if (n < jsCanvases.length) {
+            jsCanvas1 = jsCanvases[n][0];
+            jsCanvas2 = jsCanvases[n][2];
+            this.ctx1 = this.jsCanvases[n][1];
+            this.ctx2 = this.jsCanvases[n][3];
+            this.activeDrawingCanvas = n;
+        }
+        else {
+            jsCanvas1 = jsCanvases[0][0];
+            jsCanvas2 = jsCanvases[0][2];
+            this.ctx1 = this.jsCanvases[0][1];
+            this.ctx2 = this.jsCanvases[0][3];
+            this.activeDrawingCanvas = 0;
+        }
+    } catch (e) {
+        console.log('current drawing context nonexistent.');
+    }
 }
 
 //converts from degrees to radians

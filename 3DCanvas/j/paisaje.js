@@ -6,8 +6,22 @@
 //This is pre-release code. It needs cleanup and structure. Working on it. 
 //This works based on the game loop idea. It updates code/variables/positions and then draws upon this.
 
-//cloud array
+/* VARIABLES */
 var clouds = new Array();
+var canvasNames = new Array();
+
+//starts EVERYTHING. Main entrance point
+$(document).ready(function () {
+    //ready canvas names
+    canvasNames[0] = 'cnv';
+
+    startDuoCanvas(); 
+});
+
+function sxs3dcnv_main() {
+    //initPaisaje();                // for attaching events or loading assets before starting
+    sxs3dcnv_anim_main();
+}
 
 //nube info container. px, py -> position. sx, sy -> scale. d -> depth. v -> velocity (speed).
 function nubeG(ppx, ppy, psx, psy, pd, pv, po) {

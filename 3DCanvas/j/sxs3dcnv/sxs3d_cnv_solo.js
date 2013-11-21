@@ -1,37 +1,42 @@
 ﻿//SXS 3D CNV SOLO
 //HTML5 S3D canvas drawing toolkit
-// Author: diekus
+//Author: diekus
 //date of creation: 5/4/2013
-//date of last modification: 23/9/2013
+//date of last modification: 21/11/2013
 //This is pre-release code. It needs cleanup and structure. Working on it. 
+/*Can manage now several canvases on a page!*/
 
 //global variables
 var w = window;                         // window object
-var miCanvas = null;                    // jQuery object for canvas
-var jsCanvas = null;                    // DOM element for canvas
-var ctx = null;                         // canvas drawing context
+var jsCanvas = null;                    // gets the ACTIVE drawing canvas
+var ctx = null;                         // ACTIVE canvas drawing context
 var imgsPreloaded = true;               // specifies if the drawings on a canvas are ready to start [image preloading problems]
-var resPreloaded = false;               //
-var listoBg = false;                    // specifies if the background image has being loaded
-var mainHandler = -1;                   // defines the handler that allows the drawing to begin. After all resources are preloaded
-var imagesForDrawing = null;            //array that will contain the images that are needed for drawing
+var jsCanvases = null;                  // DOM canvas elements for each canvas to be drawn on
+var imagesForDrawing = null;            // array that will contain the images that are needed for drawing
+var activeDrawingCanvas = -1;           // specifies the ACTIVE drawing canvas
+var canvasNames = new Array();
 
-//starts the 3d canvas script
-$(document).ready(function () {                   //addition of images in the html code
+// starts the 3d canvas script. the solo canvases must be initialized before this point
+function startSoloCanvas(){
     //if images are required, they must be preloaded in the script that draws. The most exist in an array named imagesForDrawing
     if (imagesForDrawing == null)
         console.log('You must create an array to store the images!');
     else
         preloadImagesForDrawing(imagesForDrawing);
-});
-
-$(document).ready(function () {
     init();
-});
+}
 
 function init() {
     prepHTMLDoc();
-    prep3DCanvas('miCanvas1', null);
+    //prepares all the canvases on the document
+    jsCanvases = new Array(canvasNames.length);
+    for (icnv = 0; icnv < canvasNames.length; icnv++)
+    {
+        console.log('preparing canvas ' + canvasNames[icnv]);
+        jsCanvases[icnv] = prep3DCanvas(canvasNames[icnv]);
+    }
+    changeActiveCtx(0); //first canvas
+    //main funtuion
     sxs3dcnv_main();
 }
 
@@ -61,29 +66,40 @@ function prepHTMLDoc() {
 
 //prepares and initializes canvas for side by side drawing
 function prep3DCanvas(pCnvName) {
-    jsCanvas = document.getElementById(pCnvName);
-    ctx = jsCanvas.getContext('2d');
-    miCanvas = $(pCnvName);
-    miCanvas.attr({ width: w.innerWidth, height: w.innerHeight });
+    tCanvas = document.getElementById(pCnvName);
+    tctxCanvas = tCanvas.getContext('2d');
+    tjqCanvas = $(pCnvName);
+    tjqCanvas.attr({ width: w.innerWidth, height: w.innerHeight });
+    var objTCanvas = new Array(2);
+    objTCanvas[0] = tCanvas;
+    objTCanvas[1] = tctxCanvas;
+    return objTCanvas;
+}
+
+//changes the active drawing context. By default it is the first canvas in the array
+function changeActiveCtx(n) {
+    try {
+        if (n < jsCanvases.length) {
+            this.ctx = this.jsCanvases[n][1];
+            this.activeDrawingCanvas = n;
+            jsCanvas = jsCanvases[n][0];
+        }
+        else {
+            this.ctx = this.jsCanvases[0][1];
+            this.activeDrawingCanvas = 0;
+            jsCanvas = jsCanvases[0][0];
+        }
+    } catch (e) {
+        console.log('current drawing context nonexistent');
+        this.ctx = this.jsCanvases[0][1];
+        this.activeDrawingCanvas = 0;
+        jsCanvas = jsCanvases[0][0];
+    }
 }
 
 //converts from degrees to radians
 function deg2Rad(degrees) {
     return degrees * Math.PI / 180;
-}
-
-//specifies if all resources have being loaded
-function resourcesPreloaded() {
-    if (imgsPreloaded)
-        resPreloaded = true;
-    return resPreloaded;
-}
-
-//checks if all the requiered images are downloaded
-function imagesPreloaded() {
-    if (listoBg)
-        imgsPreloaded = true;
-    return imgsPreloaded;
 }
 
 //draws an image
@@ -96,7 +112,7 @@ function s3DImage(pImg, pPosX, pPosY, pHorOffset) {
     ctx.scale(0.5, 1);
     //draws the image
     ctx.drawImage(pImg, pPosX + pHorOffset, pPosY);
-    ctx.drawImage(pImg, pPosX + (jsCanvas.width / 2) - pHorOffset, pPosY);
+    ctx.drawImage(pImg, pPosX + cWidth - pHorOffset, pPosY);
     ctx.restore();
 }
 
@@ -109,7 +125,7 @@ function s3DImageFromURL(pSrc, pPosX, pPosY, pHorOffset) {
     img.onload = function () {
         //draws the image
         ctx.drawImage(this, pPosX + pHorOffset, pPosY);
-        ctx.drawImage(this, pPosX + (jsCanvas.width / 2) - pHorOffset, pPosY);
+        ctx.drawImage(this, pPosX + cWidth - pHorOffset, pPosY);
     };
     img.src = pSrc;
     ctx.restore();
@@ -165,7 +181,6 @@ function s3DArc(pColor, pPosX, pPosY, pRadius, pStartAngle, pEndAngle, pDirectio
     ctx.closePath();
     ctx.restore();
 
-    // ctx.fillStyle = '#aa0000'; consider for anaglyph future 
     startRightClip();
     ctx.scale(0.25, 0.5);
     ctx.beginPath();
@@ -188,7 +203,6 @@ function s3DCircle(pPosX, pPosY, pRadius, pHorOffset) {
     ctx.closePath();
     ctx.restore();
 
-    // ctx.fillStyle = '#aa0000'; consider for anaglyph future 
     startRightClip();
     ctx.scale(0.25, 0.5);
     ctx.beginPath();
@@ -268,4 +282,54 @@ function polygon(n, x, y, r, angle, counterclockwise) {
     ctx.closePath(); // Connect last vertex back to the first
     ctx.fill();
     ctx.stroke();
+}
+
+//SXS 3D CNV ANIM
+//animation structure for HTML5 S3D canvas drawing toolkit
+// Author: diekus
+//date of creation: 6/5/2013
+//date of last modification: 21/11/2013
+//This is pre-release code. It needs cleanup and structure. Working on it. 
+//This works based on the game loop idea. It updates code/variables/positions and then draws upon this.
+
+//animation related variables
+var cHeight = null;
+var cWidth = null;
+var framerate = 1000;
+
+//user defined animation variables go here
+
+function init_sxs3dcnv_anim() {
+    /*** SOLO ***/
+    cHeight = jsCanvas.height;
+    cWidth = jsCanvas.width;
+
+    framerate = 5000 / 1000;
+}
+
+function sxs3dcnv_anim_main() {
+    //initializes the animation parameters
+    init_sxs3dcnv_anim();
+
+    var intLoop = self.setInterval(function () { gUpdate(); }, framerate);
+}
+
+//updates - part of game-like loop for animation
+function gUpdate() {
+
+    //start example // replace with your code here
+    
+    gDraw(); //do not remoe this line
+}
+
+//draws - part of game-like loop for animation
+function gDraw() {
+    //ctx.clearRect(0, 0, cWidth, cHeight);   // do not remove this line to avoid ghosting/repainting
+
+    //your redrawing code goes here
+}
+
+//stops the ongoing animation
+function fermata() {
+    clearInterval(intLoop);
 }
