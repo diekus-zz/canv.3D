@@ -1,8 +1,0 @@
-//SXS 3D CNV LATEST DEV
-//HTML5 S3D canvas drawing toolkit
-// Author: diekus
-//date of creation: 5/4/2013
-//date of last modification: 21/11/2013
-//This is pre-release code. It needs cleanup and structure. Working on it. 
-
-1-Animation functionality has been baked into the main script.

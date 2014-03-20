@@ -277,6 +277,21 @@ function s3DBezierCurveTo(pCP1X, pCP1Y, pCP2X, pCP2Y, pX, pY, pHorOffset) {
     ctx2.restore();
 }
 
+//draws stereo quadratic bezier curve
+function s3DQuadraticCurveTo(pCPX, pCPY, pX, pY, pHorOffset){
+    ctx1.save();
+    ctx1.translate(pHorOffset, 1);
+    ctx1.scale(0.5, 1);
+    ctx1.quadraticCurveTo(pCPX, pCPY, pX, pY);
+    ctx1.restore();
+
+    ctx2.save();
+    ctx2.translate(-1 * pHorOffset, 1);
+    ctx2.scale(0.5, 1);
+    ctx2.quadraticCurveTo(pCPX, pCPY, pX, pY);
+    ctx2.restore();
+}
+
 //performs a dual canvas clipping
 function duoClip() {
     ctx1.clip();
@@ -360,68 +375,3 @@ function duoLineStyleDef(pWidth, pCap, pJoin, pMiter) {
     ctx1.miterLimit = pMiter;
     ctx2miterLimit = pMiter;
 }
-
-//SXS 3D CNV ANIM
-//animation structure for HTML5 S3D canvas drawing toolkit
-// Author: diekus
-//date of creation: 8/7/2013
-//date of last modification: 8/7/2013
-//This is pre-release code. It needs cleanup and structure. Working on it. 
-//This works based on the game loop idea. It updates code/variables/positions and then draws upon this.
-
-//variables
-var cHeight = null;
-var cWidth = null;
-var framerate = 1000;
-
-//user defined animation variables go here
-
-
-function init_sxs3dcnv_anim() {
-
-    cHeight = jsCanvas1.height;
-    cWidth = jsCanvas1.width;
-
-    framerate = 100;
-}
-
-function sxs3dcnv_anim_main() {
-    //initializes the animation parameters
-    init_sxs3dcnv_anim();
-
-    cloudGenerator(8); //example code. initializes drawings
-
-    var intLoop = self.setInterval(function () { gUpdate(); }, framerate);
-}
-
-//updates - part of game-like loop for animation
-function gUpdate() {
-
-    //start example // replace with your code here
-
-    //update variables to move and animate your objects
-    updatePaisaje();
-
-    //end example // your drawing code ends here
-
-    gDraw(); //do not remove this line
-}
-
-//draws - part of game-like loop for animation
-function gDraw() {
-    duoClearRect(0, 0, cWidth, cHeight);            // do not remove this line to avoid ghosting/repainting //DUO
-
-    //start example // replace with your code here
-
-    //redraw your objects
-    paisaje();
-    //end example // your drawing code ends here
-}
-
-//stops the ongoing animation
-function fermata() {
-    clearInterval(intLoop);
-}
-
-/***************************************************** user defined functions below **/
-//your code here. Recommendation: don't mix everything up! Things have been kept nice and tidy by calling functions and 

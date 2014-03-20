@@ -11,7 +11,10 @@ $(document).ready(function () {
 });
 
 function sxs3dcnv_main() {         // for attaching events or loading assets before starting
-    sxs3dcnv_anim_main();
+        paisaje();
+        cloudGenerator(8); //example code. initializes drawings
+        drawClouds();
+
 }
 
 /**
@@ -35,7 +38,7 @@ function cloudGenerator(n) {
         //get random initial characteristics for each cloud
         var ns = Math.round((Math.random() * 2 * 100) / 100);         //scale
         var nd = Math.floor((Math.random() * 12));                           //depth
-        var nx = Math.floor((Math.random() * cWidth));                      //initial x position
+        var nx = Math.floor((Math.random() * jsCanvas1.width));                      //initial x position
         var ny = Math.floor((Math.random() * 450));                         //initial y position
         var nv = Math.floor((Math.random() * 5)) + 1;                      //speed
         var no = Math.random() - 0.1;                                      //opacity
@@ -180,7 +183,7 @@ function html5Logo() {
 
 //paints the background
 function fondo() {
-    var gradient = ctx1.createLinearGradient(0,0,0, cHeight);
+    var gradient = ctx1.createLinearGradient(0,0,0, jsCanvas1.height);
     gradient.addColorStop(1, "rgb(38, 173, 227)");
     gradient.addColorStop(0, "rgb(5, 84, 115)");
 
@@ -220,7 +223,6 @@ function nube(ppx, ppy, psx, psy, pd, po) {
     duoStroke();
     duoRestore();
     duoRestore();
-
 }
 
 //drawing example
@@ -229,31 +231,18 @@ function paisaje() {
     mountains();
     html5Logo();
     drawClouds();
-    
-}
-
-//update to drawing example. ANimates objects
-function updatePaisaje(){
-    for (r = 0; r < clouds.length; r++) {
-        if (clouds[r].px <= cWidth + 100) {
-            clouds[r].px += clouds[r].v;
-        }
-        else {
-            clouds[r].px = -100;
-        }
-    }
 }
 
 //draws mountains
 function mountains() {
      
-    var gradient = ctx1.createLinearGradient(0, 0, 0, cHeight);
+    var gradient = ctx1.createLinearGradient(0, 0, 0, jsCanvas1.height);
     gradient.addColorStop(0, "rgb(102, 220, 74)");
     gradient.addColorStop(1, "rgb(31, 91, 9)");
 
 
     duoSave();
-    duoTranslate(-50, cHeight/2+120);
+    duoTranslate(-50, jsCanvas1.height/2+120);
     duoScale(1, 1);
     duoTranslate(0, 0);
     duoStrokeStyle('transparent');
