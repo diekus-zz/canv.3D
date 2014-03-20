@@ -2,7 +2,7 @@
 //HTML5 S3D dual canvas drawing toolkit
 //Author: diekus
 //date of creation: 25/4/2013
-//date of last modification: 21/11/2013
+//date of last modification: 20/03/2014
 //This is pre-release code. It needs cleanup and structure. Working on it. 
 /*Can manage now several sets of canvases on a page!*/
 
@@ -178,9 +178,12 @@ function s3DCircle(pPosX, pPosY, pRadius, pHorOffset) {
     ctx2.closePath();
 }
 
-//begins a path (stereo)
-function s3DBeginPath() {
+//begins a path (stereo) this path should have it's own shift
+function s3DBeginPath(pHorOffset) {
+    duoSave();
+    ctx1.translate(pHorOffset, 0);
     ctx1.beginPath();
+    ctx2.translate(-pHorOffset,0);
     ctx2.beginPath();
 }
 
@@ -188,18 +191,19 @@ function s3DBeginPath() {
 function s3DClosePath() {
     ctx1.closePath();
     ctx2.closePath();
+    duoRestore();
 }
 
 //stereo lineTo
-function s3DLineTo(pPosX, pPosY, pHorOffset) {
-    ctx1.lineTo((pPosX + pHorOffset)/2, pPosY);
-    ctx2.lineTo((pPosX - pHorOffset)/2, pPosY);
+function s3DLineTo(pPosX, pPosY) {
+    ctx1.lineTo((pPosX)/2, pPosY);
+    ctx2.lineTo((pPosX)/2, pPosY);
 }
 
 //stereo moveTo
-function s3DMoveTo(pPosX, pPosY, pHorOffset) {
-    ctx1.moveTo((pPosX + pHorOffset)/2, pPosY);
-    ctx2.moveTo((pPosX - pHorOffset)/2, pPosY);
+function s3DMoveTo(pPosX, pPosY) {
+    ctx1.moveTo((pPosX)/2, pPosY);
+    ctx2.moveTo((pPosX)/2, pPosY);
 }
 //stereo stroke
 function s3DStroke() {
@@ -262,31 +266,27 @@ function s3DText(pText, pFontStyle, pIsFilled, pPosX, pPosY, pHorOffset) {
 }
 
 //draws stereo bezier curve
-function s3DBezierCurveTo(pCP1X, pCP1Y, pCP2X, pCP2Y, pX, pY, pHorOffset) {
+function s3DBezierCurveTo(pCP1X, pCP1Y, pCP2X, pCP2Y, pX, pY) {
 
     ctx1.save();
-    ctx1.translate(pHorOffset, 1);
     ctx1.scale(0.5, 1);
     ctx1.bezierCurveTo(pCP1X, pCP1Y, pCP2X, pCP2Y, pX, pY);
     ctx1.restore();
 
     ctx2.save();
-    ctx2.translate(-1 * pHorOffset, 1);
     ctx2.scale(0.5, 1);
     ctx2.bezierCurveTo(pCP1X, pCP1Y, pCP2X, pCP2Y, pX, pY);
     ctx2.restore();
 }
 
 //draws stereo quadratic bezier curve
-function s3DQuadraticCurveTo(pCPX, pCPY, pX, pY, pHorOffset){
+function s3DQuadraticCurveTo(pCPX, pCPY, pX, pY){
     ctx1.save();
-    ctx1.translate(pHorOffset, 1);
     ctx1.scale(0.5, 1);
     ctx1.quadraticCurveTo(pCPX, pCPY, pX, pY);
     ctx1.restore();
 
     ctx2.save();
-    ctx2.translate(-1 * pHorOffset, 1);
     ctx2.scale(0.5, 1);
     ctx2.quadraticCurveTo(pCPX, pCPY, pX, pY);
     ctx2.restore();
