@@ -243,10 +243,10 @@ function s3DArc(pPosX, pPosY, pRadius, pStartAngle, pEndAngle, pDirection, pHorO
 //draws s3d text
 function s3DText(pText, pFontStyle, pIsFilled, pPosX, pPosY, pHorOffset) {
     ctx1.font = pFontStyle;
-
     ctx2.font = pFontStyle;
 
     ctx1.save();
+    ctx2.save();
 
     //set left clipping
     ctx1.scale(0.25, 0.5);
@@ -266,6 +266,7 @@ function s3DText(pText, pFontStyle, pIsFilled, pPosX, pPosY, pHorOffset) {
         ctx2.strokeText(pText, pPosX - pHorOffset, pPosY);
 
     ctx1.restore();
+    ctx2.restore();
 }
 
 //draws stereo bezier curve
