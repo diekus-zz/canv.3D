@@ -163,19 +163,22 @@ function s3DRectangle(pPosX, pPosY, pAncho, pAlto, pHorOffset) {
 
 //draws a s3d circle
 function s3DCircle(pPosX, pPosY, pRadius, pHorOffset) {
+    ctx1.save();
     ctx1.scale(0.25, 0.5);
     ctx1.beginPath();
     ctx1.arc((pPosX + pHorOffset) * 2, pPosY * 2, pRadius * 2, 0, 2 * Math.PI, true);
     ctx1.fill();
-    ctx1.restore();
     ctx1.closePath();
+    ctx1.restore();
 
+    ctx2.save();
     ctx2.scale(0.25, 0.5);
     ctx2.beginPath();
     ctx2.arc((pPosX - pHorOffset) * 2, pPosY * 2, pRadius * 2, 0, 2 * Math.PI, true);
     ctx2.fill();
-    ctx2.restore();
     ctx2.closePath();
+    ctx2.restore();
+    
 }
 
 //begins a path (stereo) this path should have it's own shift
@@ -356,6 +359,15 @@ function duoFillStyle(pStyle) {
 function duoStrokeStyle(pStyle) {
     ctx1.strokeStyle = pStyle;
     ctx2.strokeStyle = pStyle;
+}
+
+//clears both canvases
+function duoClearRectColor(px, py, cWidth, cHeight, fillStyle) {
+    duoSave();
+    duoFillStyle(fillStyle);
+    ctx1.fillRect(0, 0, cWidth, cHeight);
+    ctx2.fillRect(0, 0, cWidth, cHeight);
+    duoRestore();
 }
 
 //clears both canvases
