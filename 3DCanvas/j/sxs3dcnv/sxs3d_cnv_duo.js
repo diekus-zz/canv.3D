@@ -41,9 +41,11 @@ function prep3DCanvas(pCnvName1, pCnvName2) {
     //gets 2d drawing context for the canvases
     var tctx1 = tjsCanvas1.getContext('2d');
     var tctx2 = tjsCanvas2.getContext('2d');
-    //deals with sizing issues
-    tjsCanvas1.width = tjsCanvas1.width / 2;
-    tjsCanvas2.width = tjsCanvas2.width / 2;
+    tjsCanvas1.width = window.innerWidth / 2;
+    alert(window.innerWidth);
+    tjsCanvas2.width = window.innerWidth / 2;
+    tjsCanvas1.height = window.innerHeight;
+    tjsCanvas2.height = window.innerHeight;
     var objTCanvas = new Array(4);
     objTCanvas[0] = tjsCanvas1;                     //original canvas
     objTCanvas[2] = tjsCanvas2;                     //clone canvas
