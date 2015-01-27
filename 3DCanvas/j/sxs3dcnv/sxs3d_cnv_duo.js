@@ -1,8 +1,8 @@
-﻿//SXS 3D CNV DUO
+﻿//SXS 3D CNV
 //HTML5 S3D dual canvas drawing toolkit
 //Author: diekus
 //date of creation: 25/4/2013
-//date of last modification: 20/03/2014
+//date of last modification: 27/01/2015
 //This is pre-release code. It needs cleanup and structure. Working on it. 
 /*Can manage now several sets of canvases on a page!*/
 
@@ -17,12 +17,10 @@ var canvasNames = new Array();          // array that contains the names of the 
 
 //starts the 3d canvas script
 function startDuoCanvas(){
-
     init('sxs3d_');
 }
 
 function init() {
-    prepHTMLDoc(); // clears default css properties of HTML elements
     //prepares all the canvases on the document
     jsCanvases = new Array(canvasNames.length);
     for (icnv = 0; icnv < canvasNames.length; icnv = icnv + 2) {
@@ -33,20 +31,6 @@ function init() {
 
     //main 
     sxs3dcnv_main();
-}
-
-//prepares the html document to acomodate a side by side experience
-function prepHTMLDoc() {
-    $('body').css(
-        {
-            'margin': '0',
-            'padding': '0',
-            'border': '0',
-            'outline': '0',
-            'font-size': '0',
-            'vertical-align': 'baseline',
-            'background': 'transparent'
-        });
 }
 
 //prepares and initializes canvases for side by side drawing.
