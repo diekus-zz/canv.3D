@@ -12,18 +12,12 @@ var jsCanvas2 = null;                   // DOM element for second ACTIVE canvas
 var ctx1 = null;                        // first ACTIVE canvas drawing context
 var ctx2 = null;                        // second ACTIVE canvas drawing context
 var jsCanvases = null;                  // DOM canvas elements for each canvas to be drawn on
-var imgsPreloaded = true;               // specifies if the drawings on a canvas are ready to start [image preloading problems]
-var imagesForDrawing = null;            //array that will contain the images that are needed for drawing
 var activeDrawingCanvas = -1;           // specifies the ACTIVE drawing canvas
 var canvasNames = new Array();          // array that contains the names of the canvases that will be drawn upon. Layers of canvases
 
 //starts the 3d canvas script
 function startDuoCanvas(){
-    //if images are required, they must be preloaded in the script that draws. The most exist in an array named imagesForDrawing
-    if (imagesForDrawing == null)
-        console.log('You must create an array to store the images!');
-    else
-        preloadImagesForDrawing(imagesForDrawing);
+
     init('sxs3d_');
 }
 
@@ -39,16 +33,6 @@ function init() {
 
     //main 
     sxs3dcnv_main();
-}
-
-//preloads images and hides them in html code to be available immediately for drawing
-function preloadImagesForDrawing(arrImgs) {
-    var ind = 1;
-    $.each(arrImgs, function (ind, src) {
-        $("body").prepend("<img class='img-src-preload' id='img_" + ind + "' src='" + src + "' />");
-        $('.img-src-preload').css('display', 'none');
-        ind++;
-    });
 }
 
 //prepares the html document to acomodate a side by side experience
