@@ -350,6 +350,12 @@ function duoStroke() {
     ctx2.stroke();
 }
 
+function duoGlobalAlpha(value)
+{
+    ctx1.globalAlpha = value;
+    ctx2.globalAlpha = value;
+}
+
 //sets a dual canvas fill style
 function duoFillStyle(pStyle) {
     ctx1.fillStyle = pStyle;
