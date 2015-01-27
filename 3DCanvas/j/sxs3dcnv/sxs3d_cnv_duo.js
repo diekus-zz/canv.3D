@@ -124,32 +124,21 @@ function duoRestore() {
 }
 
 //draws an image
-/*
-ATTENTION: In order to draw an image, these most be preloaded first due to downloading latency. The way this is implemented to make sure they are already in the browser is to create them in <img> tags and hide them.
-Use the preloadImgs method to get them into the webpage.
-*/
 function s3DImage(pImg, pPosX, pPosY, pHorOffset) {
     duoSave();
     ctx1.scale(0.5, 1);
     ctx2.scale(0.5, 1);
-    ctx1.drawImage(pImg, pPosX + pHorOffset, pPosY);
-    ctx2.drawImage(pImg, pPosX - pHorOffset, pPosY);
-    duoRestore();
-}
+    var imageObj = new Image();
+    imageObj.onload = function (){
+    	var dest1X = pPosX + pHorOffset;
+    	var dest2X = pPosX - pHorOffset;
+    	var destY = pPosY;
 
-//draws an image from a url. Depending on loading times drawing operations might be faster on the canvas. It is recomended to use s3DImage
-function s3DImageFromURL(pSrc, pPosX, pPosY, pHorOffset) {
-    duoSave();
-    ctx1.scale(0.5, 1);
-    ctx2.scale(0.5, 1);
-    //loads the bg image
-    img = new Image();
-    img.onload = function () {
-        //draws the image
-        ctx1.drawImage(this, pPosX + pHorOffset, pPosY);
-        ctx2.drawImage(this, pPosX - pHorOffset, pPosY);
+    	ctx1.drawImage(this, dest1X, destY);
+    	ctx2.drawImage(this, dest2X, destY);
     };
-    img.src = pSrc;
+    imageObj.src = pImg;
+
     duoRestore();
 }
 
