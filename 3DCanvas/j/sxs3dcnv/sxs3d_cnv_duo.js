@@ -42,7 +42,6 @@ function prep3DCanvas(pCnvName1, pCnvName2) {
     var tctx1 = tjsCanvas1.getContext('2d');
     var tctx2 = tjsCanvas2.getContext('2d');
     tjsCanvas1.width = window.innerWidth / 2;
-    alert(window.innerWidth);
     tjsCanvas2.width = window.innerWidth / 2;
     tjsCanvas1.height = window.innerHeight;
     tjsCanvas2.height = window.innerHeight;
@@ -96,16 +95,18 @@ function duoRestore() {
 //draws an image
 function s3DImage(pImg, pPosX, pPosY, pHorOffset) {
     duoSave();
-    ctx1.scale(0.5, 1);
-    ctx2.scale(0.5, 1);
+    
     var imageObj = new Image();
     imageObj.onload = function (){
     	var dest1X = pPosX + pHorOffset;
     	var dest2X = pPosX - pHorOffset;
     	var destY = pPosY;
-
+        duoSave();
+        ctx1.scale(0.5, 1);
+        ctx2.scale(0.5, 1);
     	ctx1.drawImage(this, dest1X, destY);
     	ctx2.drawImage(this, dest2X, destY);
+        duoRestore();
     };
     imageObj.src = pImg;
 
