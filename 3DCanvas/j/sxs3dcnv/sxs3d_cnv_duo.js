@@ -23,7 +23,7 @@ function startDuoCanvas(){
 function init() {
     //prepares all the canvases on the document
     jsCanvases = new Array(canvasNames.length);
-    for (icnv = 0; icnv < canvasNames.length; icnv = icnv + 2) {
+    for (icnv = 0; icnv < canvasNames.length; icnv++) {
         console.log('preparing canvas ' + canvasNames[icnv] + ' clone');
         jsCanvases[icnv] = prep3DCanvas(canvasNames[icnv], 'sxs3d_' + canvasNames[icnv]); //at this point we have an array with subarrays of 4. (canvas and clone, ctx and clone)
     }
@@ -41,10 +41,18 @@ function prep3DCanvas(pCnvName1, pCnvName2) {
     //gets 2d drawing context for the canvases
     var tctx1 = tjsCanvas1.getContext('2d');
     var tctx2 = tjsCanvas2.getContext('2d');
+    //size
     tjsCanvas1.width = window.innerWidth / 2;
     tjsCanvas2.width = window.innerWidth / 2;
     tjsCanvas1.height = window.innerHeight;
     tjsCanvas2.height = window.innerHeight;
+    //position
+    tjsCanvas1.style.position = 'absolute';
+    tjsCanvas2.style.position = 'absolute';
+    tjsCanvas1.style.left = '0px';
+    tjsCanvas2.style.left = window.innerWidth / 2 + 'px';
+    tjsCanvas1.style.top = '0px';
+    tjsCanvas2.style.top = '0px';
     var objTCanvas = new Array(4);
     objTCanvas[0] = tjsCanvas1;                     //original canvas
     objTCanvas[2] = tjsCanvas2;                     //clone canvas
@@ -98,8 +106,8 @@ function s3DImage(pImg, pPosX, pPosY, pHorOffset) {
     
     var imageObj = new Image();
     imageObj.onload = function (){
-    	var dest1X = pPosX + pHorOffset;
-    	var dest2X = pPosX - pHorOffset;
+    	var dest1X = pPosX - pHorOffset;
+    	var dest2X = pPosX + pHorOffset;
     	var destY = pPosY;
         duoSave();
         ctx1.scale(0.5, 1);
@@ -116,9 +124,9 @@ function s3DImage(pImg, pPosX, pPosY, pHorOffset) {
 //draws a s3d rectangle
 function s3DRectangle(pPosX, pPosY, pAncho, pAlto, pHorOffset) {
     //draw original rect with width modification
-    ctx1.fillRect((pPosX + pHorOffset) / 2, pPosY, pAncho / 2, pAlto);
+    ctx1.fillRect((pPosX - pHorOffset) / 2, pPosY, pAncho / 2, pAlto);
     //draw clone
-    ctx2.fillRect((pPosX - pHorOffset) / 2, pPosY, pAncho / 2, pAlto);
+    ctx2.fillRect((pPosX + pHorOffset) / 2, pPosY, pAncho / 2, pAlto);
 }
 
 //draws a s3d circle
@@ -126,7 +134,7 @@ function s3DCircle(pPosX, pPosY, pRadius, pHorOffset) {
     ctx1.save();
     ctx1.scale(0.25, 0.5);
     ctx1.beginPath();
-    ctx1.arc((pPosX + pHorOffset) * 2, pPosY * 2, pRadius * 2, 0, 2 * Math.PI, true);
+    ctx1.arc((pPosX - pHorOffset) * 2, pPosY * 2, pRadius * 2, 0, 2 * Math.PI, true);
     ctx1.fill();
     ctx1.closePath();
     ctx1.restore();
@@ -134,7 +142,7 @@ function s3DCircle(pPosX, pPosY, pRadius, pHorOffset) {
     ctx2.save();
     ctx2.scale(0.25, 0.5);
     ctx2.beginPath();
-    ctx2.arc((pPosX - pHorOffset) * 2, pPosY * 2, pRadius * 2, 0, 2 * Math.PI, true);
+    ctx2.arc((pPosX + pHorOffset) * 2, pPosY * 2, pRadius * 2, 0, 2 * Math.PI, true);
     ctx2.fill();
     ctx2.closePath();
     ctx2.restore();
@@ -144,9 +152,9 @@ function s3DCircle(pPosX, pPosY, pRadius, pHorOffset) {
 //begins a path (stereo) this path should have it's own shift
 function s3DBeginPath(pHorOffset) {
     duoSave();
-    ctx1.translate(pHorOffset, 0);
+    ctx1.translate(-pHorOffset, 0);
     ctx1.beginPath();
-    ctx2.translate(-pHorOffset,0);
+    ctx2.translate(pHorOffset,0);
     ctx2.beginPath();
 }
 
@@ -192,11 +200,11 @@ function duoSetStyle(pFill, pStroke) {
 function s3DArc(pPosX, pPosY, pRadius, pStartAngle, pEndAngle, pDirection, pHorOffset) {
 
     ctx1.scale(0.5, 0.5);
-    ctx1.arc(pPosX + pHorOffset, pPosY*2 , pRadius , pStartAngle, pEndAngle, pDirection);
+    ctx1.arc(pPosX - pHorOffset, pPosY*2 , pRadius , pStartAngle, pEndAngle, pDirection);
     ctx1.restore();
 
     ctx2.scale(0.5, 0.5);
-    ctx2.arc(pPosX - pHorOffset, pPosY*2 , pRadius , pStartAngle, pEndAngle, pDirection);
+    ctx2.arc(pPosX + pHorOffset, pPosY*2 , pRadius , pStartAngle, pEndAngle, pDirection);
     ctx2.restore();
 }
 
@@ -212,18 +220,18 @@ function s3DText(pText, pFontStyle, pIsFilled, pPosX, pPosY, pHorOffset) {
     ctx1.scale(0.25, 0.5);
     //draw original
     if (pIsFilled)
-        ctx1.fillText(pText, pPosX + pHorOffset, pPosY);
+        ctx1.fillText(pText, pPosX - pHorOffset, pPosY);
     else
-        ctx1.strokeText(pText, pPosX + pHorOffset, pPosY);
+        ctx1.strokeText(pText, pPosX - pHorOffset, pPosY);
     ctx1.restore();
 
     //set right clipping
     ctx2.scale(0.25, 0.5);
     //draw clone
     if (pIsFilled)
-        ctx2.fillText(pText, pPosX - pHorOffset, pPosY);
+        ctx2.fillText(pText, pPosX + pHorOffset, pPosY);
     else
-        ctx2.strokeText(pText, pPosX - pHorOffset, pPosY);
+        ctx2.strokeText(pText, pPosX + pHorOffset, pPosY);
 
     ctx1.restore();
     ctx2.restore();
