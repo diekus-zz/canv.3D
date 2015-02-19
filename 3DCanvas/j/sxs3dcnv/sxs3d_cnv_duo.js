@@ -106,14 +106,35 @@ function s3DImage(pImg, pPosX, pPosY, pHorOffset) {
     
     var imageObj = new Image();
     imageObj.onload = function (){
-    	var dest1X = pPosX - pHorOffset;
-    	var dest2X = pPosX + pHorOffset;
-    	var destY = pPosY;
+        var dest1X = pPosX - pHorOffset;
+        var dest2X = pPosX + pHorOffset;
+        var destY = pPosY;
         duoSave();
         ctx1.scale(0.5, 1);
         ctx2.scale(0.5, 1);
-    	ctx1.drawImage(this, dest1X, destY);
-    	ctx2.drawImage(this, dest2X, destY);
+        ctx1.drawImage(this, dest1X, destY);
+        ctx2.drawImage(this, dest2X, destY);
+        duoRestore();
+    };
+    imageObj.src = pImg;
+
+    duoRestore();
+}
+
+//draws an image
+function s3DImageCustomSize(pImg, pPosX, pPosY, pW, pH, pHorOffset) {
+    duoSave();
+    
+    var imageObj = new Image();
+    imageObj.onload = function (){
+        var dest1X = pPosX - pHorOffset;
+        var dest2X = pPosX + pHorOffset;
+        var destY = pPosY;
+        duoSave();
+        ctx1.scale(0.5, 1);
+        ctx2.scale(0.5, 1);
+        ctx1.drawImage(this, dest1X, pW, pH, destY);
+        ctx2.drawImage(this, dest2X, pW, pH, destY);
         duoRestore();
     };
     imageObj.src = pImg;
