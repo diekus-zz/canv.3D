@@ -230,15 +230,20 @@ function s3DArc(pPosX, pPosY, pRadius, pStartAngle, pEndAngle, pDirection, pHorO
 }
 
 //draws s3d text
-function s3DText(pText, pFontStyle, pIsFilled, pPosX, pPosY, pHorOffset) {
+function s3DText(pText, pFontStyle, pIsFilled, pPosX, pPosY, pTextAlign, pTextBaseline, pHorOffset) {
     ctx1.font = pFontStyle;
     ctx2.font = pFontStyle;
+    
+    ctx1.textAlign = pTextAlign;
+    ctx1.textBaseline = pTextBaseline;
+    ctx2.textAlign = pTextAlign;
+    ctx2.textBaseline = pTextBaseline;
 
     ctx1.save();
     ctx2.save();
 
     //set left clipping
-    ctx1.scale(0.25, 0.5);
+    ctx1.scale(0.5, 1);
     //draw original
     if (pIsFilled)
         ctx1.fillText(pText, pPosX - pHorOffset, pPosY);
@@ -247,7 +252,7 @@ function s3DText(pText, pFontStyle, pIsFilled, pPosX, pPosY, pHorOffset) {
     ctx1.restore();
 
     //set right clipping
-    ctx2.scale(0.25, 0.5);
+    ctx2.scale(0.5, 1);
     //draw clone
     if (pIsFilled)
         ctx2.fillText(pText, pPosX + pHorOffset, pPosY);
@@ -381,5 +386,5 @@ function duoLineStyleDef(pWidth, pCap, pJoin, pMiter) {
     ctx1.lineJoin = pJoin;
     ctx2.lineJoin = pJoin;
     ctx1.miterLimit = pMiter;
-    ctx2miterLimit = pMiter;
+    ctx2.miterLimit = pMiter;
 }
