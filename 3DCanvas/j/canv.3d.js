@@ -1,8 +1,8 @@
-﻿//SXS 3D CNV
+﻿//CANV.3D
 //HTML5 S3D dual canvas drawing toolkit
 //Author: diekus
 //date of creation: 25/4/2013
-//date of last modification: 27/01/2015
+//date of last modification: 20/06/2015
 //This is pre-release code. It needs cleanup and structure. Working on it. 
 /*Can manage now several sets of canvases on a page!*/
 
@@ -220,12 +220,12 @@ function duoSetStyle(pFill, pStroke) {
 //draws a s3d arc
 function s3DArc(pPosX, pPosY, pRadius, pStartAngle, pEndAngle, pDirection, pHorOffset) {
 
-    ctx1.scale(0.5, 0.5);
-    ctx1.arc(pPosX - pHorOffset, pPosY*2 , pRadius , pStartAngle, pEndAngle, pDirection);
+    ctx1.scale(0.5, 1);
+    ctx1.arc(pPosX - pHorOffset, pPosY , pRadius , pStartAngle, pEndAngle, pDirection);
     ctx1.restore();
 
-    ctx2.scale(0.5, 0.5);
-    ctx2.arc(pPosX + pHorOffset, pPosY*2 , pRadius , pStartAngle, pEndAngle, pDirection);
+    ctx2.scale(0.5, 1);
+    ctx2.arc(pPosX + pHorOffset, pPosY , pRadius , pStartAngle, pEndAngle, pDirection);
     ctx2.restore();
 }
 

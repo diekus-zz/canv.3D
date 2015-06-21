@@ -1,7 +1,7 @@
-SXS3D-CNV
+CANV.3D
 =========
 
-SXS3D [Canvas]
+CANV.3D 
 
 This library allows the creation of stereoscopic graphics using the canvas 2d darwing environments (creates side by side assets). 
 
