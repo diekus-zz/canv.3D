@@ -36,6 +36,16 @@ function init() {
 //prepares and initializes canvases for side by side drawing.
 //returns an array with both canvases
 function prep3DCanvas(pCnvName1, pCnvName2) {
+    //create elements canvas
+    var canv1 = document.createElement('canvas');
+    var canv2 = document.createElement('canvas');
+    //asign id's to canvaces
+    canv1.id = pCnvName1;    
+    canv2.id = pCnvName2;
+    //add canvaces to html index
+    document.getElementById('dobleCnv').appendChild(canv1); 
+    document.getElementById('dobleCnv').appendChild(canv2); 
+    //gets elements as var
     var tjsCanvas1 = document.getElementById(pCnvName1);
     var tjsCanvas2 = document.getElementById(pCnvName2);
     //gets 2d drawing context for the canvases
