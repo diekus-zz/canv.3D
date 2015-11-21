@@ -708,6 +708,34 @@ Contexts3DCanvas.prototype.clearRect = function( px, py, cWidth, cHeight, pHorOf
 
 
 
+
+
+/**
+ * Clear window of canvas specific area
+ *
+ * @author Juan Acuña Silvera
+ * @update 20/11/2015
+ *
+ * @method Contexts3DCanvas.prototype.clearRect
+ * @example : ctx.clearRectColor(0,0,100,100,'red',0)
+ */
+
+Contexts3DCanvas.prototype.clearRectColor = function( px, py, cWidth, cHeight, color, pHorOffset){
+    if(pHorOffset==undefined){
+        pHorOffset=0;
+    }
+    this.save();
+    this.fillStyle(color);
+    this.fillRect(px, py, cWidth, cHeight, pHorOffset);
+    this.fill();
+    this.restore();
+}
+
+
+
+
+
+
 /**
  * clip canvaces
  *
