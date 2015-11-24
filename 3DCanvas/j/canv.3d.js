@@ -107,6 +107,24 @@ function deg2Rad(degrees) {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*******************************
 *main functions for canvas works
 *23/11/2015 UPDATE
@@ -132,6 +150,24 @@ window.cancelAnimFrame = (function(){
                 window.setTimeout(callback, 1000 / 60);
             };
 })();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -176,6 +212,7 @@ function Contexts3DCanvas(){
     this.textAlign=null;
     this.textBaseline=null;
     this.webkitImageSmoothingEnabled=null;
+    this.images = [];
 }
 
 
@@ -278,343 +315,6 @@ Contexts3DCanvas.prototype.setProperties = function(){
 
 
 
-/**
- * Modify Properties of context
- * PROPERTY for the context
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- */
-
-
-/**
- * Modify Property fillStyle
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.duofillStyle
- * @example : ctx.duofillStyle('red'); or some gradient
- */
-/*
-Contexts3DCanvas.prototype.fillStyle = function( color ){
-    if( typeof color=== 'object'){
-        if(color.gradient1 && color.gradient2){
-            ctx1.fillStyle = color.gradient1;
-            ctx2.fillStyle = color.gradient2;
-        }else{
-            ctx1.fillStyle = color.pattern1;
-            ctx2.fillStyle = color.pattern2;
-        }        
-    }else{
-        this.ctx1.fillStyle = color;
-        this.ctx2.fillStyle = color;        
-    }
-}*/
-
-
-
-/**
- * Modify Property font to text
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.font
- * @example : ctx.font('10px sans-serif');
- */
-/*
-Contexts3DCanvas.prototype.font = function( font ){
-    this.ctx1.font = font;
-    this.ctx2.font = font;
-}*/
-
-
-
-/**
- * Modify Property global Alpha - opacity
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.globalAlpha
- * @example : ctx.globalAlpha( 0.5 );
- */
-/*
-Contexts3DCanvas.prototype.globalAlpha = function( value ){
-    this.ctx1.globalAlpha = value;
-    this.ctx2.globalAlpha = value;
-}*/
-
-
-
-
-/**
- * Modify Property globalCompositeOperation
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.globalAlpha
- * @example : ctx.globalCompositeOperation( 'source-over' );
- */
-/*
-Contexts3DCanvas.prototype.globalCompositeOperation = function( style ){
-    this.ctx1.globalCompositeOperation = style;
-    this.ctx2.globalCompositeOperation = style;
-}*/
-
-
-
-
-/**
- * Modify Property imageSmoothingEnabled
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.imageSmoothingEnabled
- * @example : ctx.imageSmoothingEnabled( true );
- */
-/*
-Contexts3DCanvas.prototype.imageSmoothingEnabled = function( bool ){
-    this.ctx1.mozImageSmoothingEnabled = bool;
-    this.ctx1.webkitImageSmoothingEnabled = bool;
-    this.ctx1.msImageSmoothingEnabled = bool;
-    this.ctx1.imageSmoothingEnabled = bool;
-    this.ctx2.mozImageSmoothingEnabled = bool;
-    this.ctx2.webkitImageSmoothingEnabled = bool;
-    this.ctx2.msImageSmoothingEnabled = bool;
-    this.ctx2.imageSmoothingEnabled = bool;
-}
-*/
-
-
-
-/**
- * Modify Property lineCap
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.lineCap
- * @example : ctx.lineCap( 'round' );
- */
-/*
-Contexts3DCanvas.prototype.lineCap = function( style ){
-    this.ctx1.lineCap = style;
-    this.ctx2.lineCap = style;
-}*/
-
-
-
-
-/**
- * Modify Property lineDashOffset
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.lineDashOffset
- * @example : ctx.lineDashOffset( 2 );
- */
-/**
-Contexts3DCanvas.prototype.lineDashOffset = function( value ){
-    this.ctx1.lineDashOffset = value;
-    this.ctx2.lineDashOffset = value;
-}*/
-
-
-
-
-/**
- * Modify Property lineJoin
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.lineJoin
- * @example : ctx.lineJoin( 'miter' );
- */
-/*
-Contexts3DCanvas.prototype.lineJoin = function( style ){
-    this.ctx1.lineJoin = style;
-    this.ctx2.lineJoin = style;
-}*/
-
-
-
-
-/**
- * Modify Property lineWidth
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.lineWidth
- * @example : ctx.lineWidth( 3 );
- */
-/*
-Contexts3DCanvas.prototype.lineWidth = function( value ){
-    this.ctx1.lineWidth = value;
-    this.ctx2.lineWidth = value;
-}*/
-
-
-
-
-/**
- * Modify Property miterLimit
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.miterLimit
- * @example : ctx.miterLimit( 5 );
- */
-/*
-Contexts3DCanvas.prototype.miterLimit = function( value ){
-    this.ctx1.miterLimit = value;
-    this.ctx2.miterLimit = value;
-}*/
-
-
-
-
-/**
- * Modify Property shadowBlur
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.shadowBlur
- * @example : ctx.shadowBlur( 2 );
- */
-/*
-Contexts3DCanvas.prototype.shadowBlur = function( value ){
-    this.ctx1.shadowBlur = value;
-    this.ctx2.shadowBlur = value;
-}*/
-
-
-
-
-/**
- * Modify Property shadowColor
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.shadowColor
- * @example : ctx.shadowColor( "rgba(0, 0, 0, 0)" );
- */
-/*
-Contexts3DCanvas.prototype.shadowColor = function( color ){
-    this.ctx1.shadowColor = color;
-    this.ctx2.shadowColor = color;
-}*/
-
-
-
-
-/**
- * Modify Property shadowOffsetX
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.shadowOffsetX
- * @example : ctx.shadowOffsetX( 20 );
- */
-/*
-Contexts3DCanvas.prototype.shadowOffsetX = function( value ){
-    this.ctx1.shadowOffsetX = value;
-    this.ctx2.shadowOffsetX = value;
-}*/
-
-
-
-
-/**
- * Modify Property shadowOffsetY
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.shadowOffsetY
- * @example : ctx.shadowOffsetY( 10 );
- */
-/*
-Contexts3DCanvas.prototype.shadowOffsetY = function( value ){
-    this.ctx1.shadowOffsetY = value;
-    this.ctx2.shadowOffsetY = value;
-}*/
-
-
-
-
-/**
- * Modify Property strokeStyle
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.strokeStyle
- * @example : ctx.strokeStyle('blue');
- */
-/*
-Contexts3DCanvas.prototype.strokeStyle = function( color ){
-    this.ctx1.strokeStyle = color;
-    this.ctx2.strokeStyle = color;
-}*/
-
-
-
-
-
-/**
- * Modify Property textAlign
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.textAlign
- * @example : ctx.textAlign('start');
- */
-/*
-Contexts3DCanvas.prototype.textAlign = function( style ){
-    this.ctx1.textAlign = style;
-    this.ctx2.textAlign = style;
-}*/
-
-
-
-
-
-/**
- * Modify Property textBaseline
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.textBaseline
- * @example : ctx.textBaseline('start');
- */
-/*
-Contexts3DCanvas.prototype.textBaseline = function( style ){
-    this.ctx1.textBaseline = style;
-    this.ctx2.textBaseline = style;
-}*/
-
-
-
-
-
-
-
-
-
 
 
 
@@ -649,11 +349,6 @@ Contexts3DCanvas.prototype.textBaseline = function( style ){
  * @update 20/11/2015
  *
  */
-
-
-
-
-
 
 
 
@@ -823,20 +518,19 @@ Contexts3DCanvas.prototype.clearRect = function( px, py, cWidth, cHeight, pHorOf
  */
 
 Contexts3DCanvas.prototype.clearRectColor = function( px, py, cWidth, cHeight, color, pHorOffset){
-    if(py==undefined && cWidth==undefined && cHeight==undefined && color==undefined && pHorOffset==undefined){
+    this.setProperties();
+    if(px!=undefined && py==undefined && cWidth==undefined && cHeight==undefined && color==undefined && pHorOffset==undefined){
         color=px;
         px=0;
         py=0;
         cWidth=ctx.canvas().canvas1.width+ctx.canvas().canvas2.width;
         cHeight=ctx.canvas().canvas1.height+ctx.canvas().canvas2.height;
         pHorOffset=0;
-        this.fillStyle = 'black';
+        this.fillStyle = color;
     }
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
-    this.fillStyle=color;
-    this.setProperties();    
     this.save();
     this.fillRect(px, py, cWidth, cHeight, pHorOffset);
     this.fill();
@@ -1073,18 +767,29 @@ Contexts3DCanvas.prototype.drawImage= function( img , sx, sy, swidth, sheight, x
  */
 
 Contexts3DCanvas.prototype.drawImageDefaultValues = function( img, posX, posY, pHorOffset){
-    this.save();
-    var imageObj = new Image();
-    var that = this;
-    imageObj.onload = function (){
-        that.save();
-        that.scale(0.5,1);
-        that.ctx1.drawImage(this, posX-pHorOffset, posY);
-        that.ctx2.drawImage(this, posX+pHorOffset, posY);
-        that.restore();
-    };
-    imageObj.src = img;    
-    this.restore();
+    if(this.isCreated(img) && this.isLoaded(img)){
+        this.save();
+            this.scale(0.5,1);
+            this.ctx1.drawImage(this.getImage(img), posX-pHorOffset, posY);
+            this.ctx2.drawImage(this.getImage(img), posX+pHorOffset, posY);
+        this.restore();
+    }else{
+        this.save();
+        var imageObj = new Image();
+        var that = this;
+        imageObj.onload = function (){
+            that.save();
+            that.scale(0.5,1);
+            that.ctx1.drawImage(this, posX-pHorOffset, posY);
+            that.ctx2.drawImage(this, posX+pHorOffset, posY);
+            that.restore();
+        };
+        imageObj.src = img;    
+        this.restore();
+    }
+
+
+
 }
 
 
@@ -1098,6 +803,7 @@ Contexts3DCanvas.prototype.drawImageDefaultValues = function( img, posX, posY, p
  */
 
 Contexts3DCanvas.prototype.drawImageCustomSize = function( img, posX, posY, width, height, pHorOffset){
+    imgs = this.isCreated(img);
     this.save();
     var imageObj = new Image();
     var that = this;
@@ -1123,6 +829,7 @@ Contexts3DCanvas.prototype.drawImageCustomSize = function( img, posX, posY, widt
  */
 
 Contexts3DCanvas.prototype.drawImageCustomImage = function( img , sx, sy, swidth, sheight, x, y, width, height, pHorOffset){
+    imgs = this.isCreated(img);
     this.save();
     var imageObj = new Image();
     var that = this;
@@ -1891,3 +1598,128 @@ Contexts3DCanvas.prototype.strokeCircle = function( x, y, radius, pHorOffset){
     this.closePath();
     this.restore();
 }
+
+
+
+
+
+/**
+ * Return true or false depending if is created or not a new image
+ *
+ * @author Juan Acuña Silvera
+ * @update 21/11/2015
+ *
+ * @method Contexts3DCanvas.prototype.isCreated
+ */
+
+Contexts3DCanvas.prototype.isCreated = function(src){
+    //fisrt time load image, always
+    if(this.images.length == 0){
+        this.images.push( new Images3DCanvas(src) );
+        return false;
+    }else{//second time, check if exist already that src
+        var load = true;
+        for (var i = 0; i < this.images.length; i++) {
+            if(this.images[i].src == src){
+                return true;
+                load = false;
+            }
+        }
+        if(load){//if not, create a new class for this image handle
+            this.images.push( new Images3DCanvas(src) );
+            return false;
+        }
+    }
+}
+
+
+
+/**
+ * Return true or false depending if is loadd or not a new image
+ *
+ * @author Juan Acuña Silvera
+ * @update 21/11/2015
+ *
+ * @method Contexts3DCanvas.prototype.isLoaded
+ */
+
+Contexts3DCanvas.prototype.isLoaded = function(src){
+    if(this.images.length>0){
+        for (var i = 0; i < this.images.length; i++) {
+            if(this.images[i].src == src){
+                if(this.images[i].loaded){
+                    return true;
+                }
+            }
+        }
+    }else{
+        return false;
+    }
+}
+
+
+
+
+
+/**
+ * get image
+ *
+ * @author Juan Acuña Silvera
+ * @update 21/11/2015
+ *
+ * @method Contexts3DCanvas.prototype.getImage
+ */
+
+Contexts3DCanvas.prototype.getImage = function(src){
+    for (var i = 0; i < this.images.length; i++) {
+        if(this.images[i].src == src){
+            return this.images[i].obj;
+        }
+    }
+}
+
+
+
+
+
+/**
+ * Create Class for handle images on canvas(loaded error)
+ *
+ * @author Juan Acuña Silvera
+ * @update 20/11/2015
+ *
+ */
+
+function Images3DCanvas(src){
+    this.src = src;
+    this.obj = null;
+    this.loaded = false;
+    this.loadImage();
+}
+
+
+
+
+/**
+ * loadImage just once
+ *
+ * @author Juan Acuña Silvera
+ * @update 21/11/2015
+ *
+ * @method Images3DCanvas.prototype.loadImage
+ */
+
+Images3DCanvas.prototype.loadImage = function(){
+    if(!this.loaded){
+        var imageObj = new Image();
+        var that = this;
+        imageObj.onload = function (){
+            that.obj = this;
+            that.loaded = true;
+        };
+        imageObj.src = this.src;
+    }
+}
+
+
+
