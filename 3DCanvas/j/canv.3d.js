@@ -93,7 +93,7 @@ function changeActiveCtx(n) {
     } catch (e) {
         console.log('current drawing context nonexistent.');
     } finally {
-        ctx.setNewContext(ctx1,ctx2);
+        ctx.getProperties(ctx1,ctx2);
     }
 }
 
@@ -187,9 +187,11 @@ function Contexts3DCanvas(){
  *
  */
 
-Contexts3DCanvas.prototype.setNewContext = function ( ctx1, ctx2){
-    this.ctx1=ctx1;
-    this.ctx2=ctx2;
+Contexts3DCanvas.prototype.getProperties = function ( ctx1, ctx2){
+    if(ctx1!=undefined && ctx2!=undefined){
+        this.ctx1=ctx1;
+        this.ctx2=ctx2;
+    }
     this.canvas1=this.ctx1.canvas;
     this.canvas2=this.ctx2.canvas;
     this.fillStyle=this.ctx1.fillStyle;
@@ -224,7 +226,7 @@ Contexts3DCanvas.prototype.setNewContext = function ( ctx1, ctx2){
  */
 
 
-Contexts3DCanvas.prototype.updateProperties = function(){
+Contexts3DCanvas.prototype.setProperties = function(){
     this.ctx1.canvas = this.canvas1;
     this.ctx2.canvas = this.canvas2;
     this.ctx1.fillStyle = this.fillStyle;
@@ -668,7 +670,7 @@ Contexts3DCanvas.prototype.textBaseline = function( style ){
  */
 
 Contexts3DCanvas.prototype.arc = function(pPosX, pPosY, pRadius, pStartAngle, pEndAngle, pDirection, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -694,7 +696,7 @@ Contexts3DCanvas.prototype.arc = function(pPosX, pPosY, pRadius, pStartAngle, pE
  */
 
 Contexts3DCanvas.prototype.arcTo = function( xPos1 , yPos1 , xPos2 , yPos2, pRadius, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -720,7 +722,7 @@ Contexts3DCanvas.prototype.arcTo = function( xPos1 , yPos1 , xPos2 , yPos2, pRad
  */
 
 Contexts3DCanvas.prototype.beginPath = function(){
-    this.updateProperties();
+    this.setProperties();
     this.ctx1.beginPath();
     this.ctx2.beginPath();
 }
@@ -739,7 +741,7 @@ Contexts3DCanvas.prototype.beginPath = function(){
  */
 
 Contexts3DCanvas.prototype.bezierCurveTo = function( pCP1X, pCP1Y, pCP2X, pCP2Y, pX, pY, pHorOffset ){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -787,7 +789,7 @@ Contexts3DCanvas.prototype.canvas = function(){
  */
 
 Contexts3DCanvas.prototype.clearRect = function( px, py, cWidth, cHeight, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(px==undefined && py==undefined && cWidth==undefined && cHeight==undefined && pHorOffset==undefined){
         px=0;
         py=0;
@@ -821,7 +823,6 @@ Contexts3DCanvas.prototype.clearRect = function( px, py, cWidth, cHeight, pHorOf
  */
 
 Contexts3DCanvas.prototype.clearRectColor = function( px, py, cWidth, cHeight, color, pHorOffset){
-    this.updateProperties();
     if(py==undefined && cWidth==undefined && cHeight==undefined && color==undefined && pHorOffset==undefined){
         color=px;
         px=0;
@@ -829,14 +830,14 @@ Contexts3DCanvas.prototype.clearRectColor = function( px, py, cWidth, cHeight, c
         cWidth=ctx.canvas().canvas1.width+ctx.canvas().canvas2.width;
         cHeight=ctx.canvas().canvas1.height+ctx.canvas().canvas2.height;
         pHorOffset=0;
-        this.fillStyle = color;
+        this.fillStyle = 'black';
     }
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
+    this.fillStyle=color;
+    this.setProperties();    
     this.save();
-    this.ctx1.fillStyle = color;
-    this.ctx2.fillStyle = color;
     this.fillRect(px, py, cWidth, cHeight, pHorOffset);
     this.fill();
     this.restore();
@@ -858,6 +859,7 @@ Contexts3DCanvas.prototype.clearRectColor = function( px, py, cWidth, cHeight, c
  */
 
 Contexts3DCanvas.prototype.clip = function(){
+    this.setProperties();  
     this.ctx1.clip();
     this.ctx2.clip();
 }
@@ -877,6 +879,7 @@ Contexts3DCanvas.prototype.clip = function(){
  */
 
 Contexts3DCanvas.prototype.closePath = function(){
+    this.setProperties();
     this.ctx1.closePath();
     this.ctx2.closePath();
 }
@@ -1035,7 +1038,7 @@ Contexts3DCanvas.prototype.createRadialGradient= function(x0, y0, r0, x1, y1, r1
  */
 
 Contexts3DCanvas.prototype.drawImage= function( img , sx, sy, swidth, sheight, x, y, width, height, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     //case 4 values as input
     if( img!= undefined && sx!=undefined && sy!=undefined && (swidth!=undefined || swidth==undefined) && sheight==undefined 
         && x==undefined && y==undefined && width==undefined && height==undefined && pHorOffset==undefined ){
@@ -1070,7 +1073,6 @@ Contexts3DCanvas.prototype.drawImage= function( img , sx, sy, swidth, sheight, x
  */
 
 Contexts3DCanvas.prototype.drawImageDefaultValues = function( img, posX, posY, pHorOffset){
-    this.updateProperties();
     this.save();
     var imageObj = new Image();
     var that = this;
@@ -1096,7 +1098,6 @@ Contexts3DCanvas.prototype.drawImageDefaultValues = function( img, posX, posY, p
  */
 
 Contexts3DCanvas.prototype.drawImageCustomSize = function( img, posX, posY, width, height, pHorOffset){
-    this.updateProperties();
     this.save();
     var imageObj = new Image();
     var that = this;
@@ -1122,7 +1123,6 @@ Contexts3DCanvas.prototype.drawImageCustomSize = function( img, posX, posY, widt
  */
 
 Contexts3DCanvas.prototype.drawImageCustomImage = function( img , sx, sy, swidth, sheight, x, y, width, height, pHorOffset){
-    this.updateProperties();
     this.save();
     var imageObj = new Image();
     var that = this;
@@ -1151,7 +1151,7 @@ Contexts3DCanvas.prototype.drawImageCustomImage = function( img , sx, sy, swidth
  */
 
 Contexts3DCanvas.prototype.fillRect = function( px, py, cWidth, cHeight, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1177,7 +1177,7 @@ Contexts3DCanvas.prototype.fillRect = function( px, py, cWidth, cHeight, pHorOff
  */
 
 Contexts3DCanvas.prototype.fill = function(){
-    this.updateProperties();
+    this.setProperties();
     this.ctx1.fill();
     this.ctx2.fill();
 }
@@ -1196,7 +1196,7 @@ Contexts3DCanvas.prototype.fill = function(){
  */
 
 Contexts3DCanvas.prototype.fillText = function( text, x, y, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1379,7 +1379,7 @@ Contexts3DCanvas.prototype.isPrototypeOf = function( x, y){
  */
 
 Contexts3DCanvas.prototype.lineTo = function( x, y, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1400,7 +1400,7 @@ Contexts3DCanvas.prototype.lineTo = function( x, y, pHorOffset){
  */
 
 Contexts3DCanvas.prototype.measureText = function( text){
-    this.updateProperties();
+    this.setProperties();
     return this.ctx1.measureText('asd');
 }
 
@@ -1418,7 +1418,7 @@ Contexts3DCanvas.prototype.measureText = function( text){
  */
 
 Contexts3DCanvas.prototype.moveTo = function( x, y, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1482,7 +1482,7 @@ Contexts3DCanvas.prototype.putImageData= function( imageData, pPosX, pPosY, pHor
  */
 
 Contexts3DCanvas.prototype.quadraticCurveTo= function( cpx, cpy, x, y, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1509,7 +1509,7 @@ Contexts3DCanvas.prototype.quadraticCurveTo= function( cpx, cpy, x, y, pHorOffse
  */
 
 Contexts3DCanvas.prototype.rect= function( x, y, width, height, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1535,7 +1535,7 @@ Contexts3DCanvas.prototype.rect= function( x, y, width, height, pHorOffset){
  */
 
 Contexts3DCanvas.prototype.quadraticCurveTo= function( cpx, cpy, x, y, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1587,6 +1587,7 @@ Contexts3DCanvas.prototype.resetTransform= function(){
 Contexts3DCanvas.prototype.restore = function(){
     this.ctx1.restore();
     this.ctx2.restore();
+    this.getProperties();
 }
 
 
@@ -1624,6 +1625,7 @@ Contexts3DCanvas.prototype.rotate= function(angle){
  */
 
 Contexts3DCanvas.prototype.save = function(){
+    this.setProperties();
     this.ctx1.save();
     this.ctx2.save();
 }
@@ -1703,7 +1705,7 @@ Contexts3DCanvas.prototype.setTransform= function( a, b, c, d, e, f){
  */
 
 Contexts3DCanvas.prototype.stroke = function(){
-    this.updateProperties();
+    this.setProperties();
     this.ctx1.stroke();
     this.ctx2.stroke();
 }
@@ -1724,7 +1726,7 @@ Contexts3DCanvas.prototype.stroke = function(){
  */
 
 Contexts3DCanvas.prototype.strokeRect = function( px, py, cWidth, cHeight, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1825,7 +1827,7 @@ Contexts3DCanvas.prototype.valueOf = function( objt){
  */
 
 Contexts3DCanvas.prototype.circle = function( x, y, radius, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1852,7 +1854,7 @@ Contexts3DCanvas.prototype.circle = function( x, y, radius, pHorOffset){
  */
 
 Contexts3DCanvas.prototype.fillCircle = function( x, y, radius, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1878,7 +1880,7 @@ Contexts3DCanvas.prototype.fillCircle = function( x, y, radius, pHorOffset){
  */
 
 Contexts3DCanvas.prototype.strokeCircle = function( x, y, radius, pHorOffset){
-    this.updateProperties();
+    this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
