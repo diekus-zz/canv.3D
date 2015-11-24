@@ -62,8 +62,3 @@ function drawMouse(mx,my){
     ctx.drawImage('i/cursor.png',mx, my, 0);
 }
 
-
-function SnowBall(){
-    this.positionX = null;
-    this.positionY = null;
-}
