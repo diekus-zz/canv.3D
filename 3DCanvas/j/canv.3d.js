@@ -769,9 +769,9 @@ Contexts3DCanvas.prototype.drawImage= function( img , sx, sy, swidth, sheight, x
 Contexts3DCanvas.prototype.drawImageDefaultValues = function( img, posX, posY, pHorOffset){
     if(this.isCreated(img) && this.isLoaded(img)){
         this.save();
-            this.scale(0.5,1);
-            this.ctx1.drawImage(this.getImage(img), posX-pHorOffset, posY);
-            this.ctx2.drawImage(this.getImage(img), posX+pHorOffset, posY);
+        this.scale(0.5,1);
+        this.ctx1.drawImage(this.getImage(img), posX-pHorOffset, posY);
+        this.ctx2.drawImage(this.getImage(img), posX+pHorOffset, posY);
         this.restore();
     }else{
         this.save();
@@ -803,19 +803,26 @@ Contexts3DCanvas.prototype.drawImageDefaultValues = function( img, posX, posY, p
  */
 
 Contexts3DCanvas.prototype.drawImageCustomSize = function( img, posX, posY, width, height, pHorOffset){
-    imgs = this.isCreated(img);
-    this.save();
-    var imageObj = new Image();
-    var that = this;
-    imageObj.onload = function (){
-        that.save();
-        that.scale(0.5,1);
-        that.ctx1.drawImage(this, posX-pHorOffset, posY, width, height);
-        that.ctx2.drawImage(this, posX+pHorOffset, posY, width, height);
-        that.restore();
-    };
-    imageObj.src = img;    
-    this.restore();
+    if(this.isCreated(img) && this.isLoaded(img)){
+        this.save();
+        this.scale(0.5,1);
+        this.ctx1.drawImage(this.getImage(img), posX-pHorOffset, posY, width, height);
+        this.ctx2.drawImage(this.getImage(img), posX+pHorOffset, posY, width, height);
+        this.restore();
+    }else{
+        this.save();
+        var imageObj = new Image();
+        var that = this;
+        imageObj.onload = function (){
+            that.save();
+            that.scale(0.5,1);
+            that.ctx1.drawImage(this, posX-pHorOffset, posY, width, height);
+            that.ctx2.drawImage(this, posX+pHorOffset, posY, width, height);
+            that.restore();
+        };
+        imageObj.src = img;    
+        this.restore();
+    }
 }
 
 
@@ -829,19 +836,26 @@ Contexts3DCanvas.prototype.drawImageCustomSize = function( img, posX, posY, widt
  */
 
 Contexts3DCanvas.prototype.drawImageCustomImage = function( img , sx, sy, swidth, sheight, x, y, width, height, pHorOffset){
-    imgs = this.isCreated(img);
-    this.save();
-    var imageObj = new Image();
-    var that = this;
-    imageObj.onload = function (){
-        that.save();
-        that.scale(0.5,1);
-        that.ctx1.drawImage(this, sx, sy, swidth, sheight, posX-pHorOffset, posY, width, height);
-        that.ctx2.drawImage(this, sx, sy, swidth, sheight, posX+pHorOffset, posY, width, height);
-        that.restore();
-    };
-    imageObj.src = img;    
-    this.restore();
+    if(this.isCreated(img) && this.isLoaded(img)){
+        this.save();
+        this.scale(0.5,1);
+        this.ctx1.drawImage(this.getImage(img), sx, sy, swidth, sheight, posX-pHorOffset, posY, width, height);
+        this.ctx2.drawImage(this.getImage(img), sx, sy, swidth, sheight, posX+pHorOffset, posY, width, height);
+        this.restore();
+    }else{
+        this.save();
+        var imageObj = new Image();
+        var that = this;
+        imageObj.onload = function (){
+            that.save();
+            that.scale(0.5,1);
+            that.ctx1.drawImage(this, sx, sy, swidth, sheight, posX-pHorOffset, posY, width, height);
+            that.ctx2.drawImage(this, sx, sy, swidth, sheight, posX+pHorOffset, posY, width, height);
+            that.restore();
+        };
+        imageObj.src = img;    
+        this.restore();
+    }
 }
 
 
