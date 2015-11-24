@@ -34,6 +34,8 @@ BENEATH THIS LINE IS A SIMPLE EXAMPLE OF STEREOSCOPIC 3D DRAWING. REPLACE WITH Y
 
 var x= 0;
 var y= 0;
+var x2=0;
+var y2=0;
 
 function mainWallpaper(){
     changeActiveCtx(0);
@@ -43,13 +45,20 @@ function mainWallpaper(){
     ctx.drawImage('i/cursor.png',x, y, 0);
     if(x>w){x=0;}
     if(y>h){y=0;}
+    ctx.strokeStyle="red";
+    ctx.strokeCircle(x2--,y2--,40,5);
+    ctx.stroke();
+    if(x2<0){x2=w;}
+    if(y2<0){y2=h;}
 }
 
 function drawMouse(mx,my){
     changeActiveCtx(1);
-    ctx.globalAlpha=0.5;
     ctx.clearRect();//if not define, default all window
+    ctx.fillStyle='yellow';
+    ctx.globalAlpha=0.5;
     ctx.fillCircle(mx, my, 30, 0);
+    ctx.globalAlpha=1;
     ctx.drawImage('i/cursor.png',mx, my, 0);
 }
 
