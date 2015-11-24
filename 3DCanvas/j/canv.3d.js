@@ -233,21 +233,36 @@ Contexts3DCanvas.prototype.updateProperties = function(){
     this.ctx2.font = this.font;
     this.ctx1.globalAlpha = this.globalAlpha;
     this.ctx2.globalAlpha = this.globalAlpha;
-    this.globalCompositeOperation=this.ctx1.globalCompositeOperation;
-    this.imageSmoothingEnabled=this.ctx1.imageSmoothingEnabled;
-    this.lineCap=this.ctx1.lineCap;
-    this.lineDashOffset=this.ctx1.lineDashOffset;
-    this.lineJoin=this.ctx1.lineJoin;
-    this.lineWidth=this.ctx1.lineWidth;
-    this.miterLimit=this.ctx1.miterLimit;
-    this.shadowBlur=this.ctx1.shadowBlur;
-    this.shadowColor=this.ctx1.shadowColor;
-    this.shadowOffsetX=this.ctx1.shadowOffsetX;
-    this.shadowOffsetY=this.ctx1.shadowOffsetY;
-    this.strokeStyle=this.ctx1.strokeStyle;
-    this.textAlign=this.ctx1.textAlign;
-    this.textBaseline=this.ctx1.textBaseline;
-    this.webkitImageSmoothingEnabled=this.ctx1.imageSmoothingEnabled || this.ctx1.webkitImageSmoothingEnabled;
+    this.ctx1.globalCompositeOperation=this.globalCompositeOperation;
+    this.ctx2.globalCompositeOperation=this.globalCompositeOperation;
+    this.ctx1.imageSmoothingEnabled=this.imageSmoothingEnabled;
+    this.ctx2.imageSmoothingEnabled=this.imageSmoothingEnabled;
+    this.ctx1.lineCap=this.lineCap;
+    this.ctx2.lineCap=this.lineCap;
+    this.ctx1.lineDashOffset=this.lineDashOffset;
+    this.ctx2.lineDashOffset=this.lineDashOffset;
+    this.ctx1.lineJoin=this.lineJoin;
+    this.ctx2.lineJoin=this.lineJoin;
+    this.ctx1.lineWidth=this.lineWidth;
+    this.ctx2.lineWidth=this.lineWidth;
+    this.ctx1.miterLimit=this.miterLimit;
+    this.ctx2.miterLimit=this.miterLimit;
+    this.ctx1.shadowBlur=this.shadowBlur;
+    this.ctx2.shadowBlur=this.shadowBlur;
+    this.ctx1.shadowColor=this.shadowColor;
+    this.ctx2.shadowColor=this.shadowColor;
+    this.ctx1.shadowOffsetX=this.shadowOffsetX;
+    this.ctx2.shadowOffsetX=this.shadowOffsetX;
+    this.ctx1.shadowOffsetY=this.shadowOffsetY;
+    this.ctx2.shadowOffsetY=this.shadowOffsetY;
+    this.ctx1.strokeStyle=this.strokeStyle;
+    this.ctx2.strokeStyle=this.strokeStyle;
+    this.ctx1.textAlign=this.textAlign;
+    this.ctx2.textAlign=this.textAlign;
+    this.ctx1.textBaseline=this.textBaseline;
+    this.ctx2.textBaseline=this.textBaseline;
+    this.ctx1.imageSmoothingEnabled=this.webkitImageSmoothingEnabled;
+    this.ctx2.imageSmoothingEnabled=this.webkitImageSmoothingEnabled;
 }
 
 
@@ -705,6 +720,7 @@ Contexts3DCanvas.prototype.arcTo = function( xPos1 , yPos1 , xPos2 , yPos2, pRad
  */
 
 Contexts3DCanvas.prototype.beginPath = function(){
+    this.updateProperties();
     this.ctx1.beginPath();
     this.ctx2.beginPath();
 }
