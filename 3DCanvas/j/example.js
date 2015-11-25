@@ -57,7 +57,7 @@ function drawImage1(){
     ctx.globalAlpha=1;
     ctx.fillStyle = 'blue';
     ctx.fillRect(x,y+50,200,50,-2);
-    ctx.drawImage('i/canv3dlogo.png',x, y, -3);
+    ctx.drawImage('i/canv3dlogo.png',x, y, +3);
     if(x>w){x=-474;}
     if(y>h){y=-144;}
 }
@@ -72,7 +72,7 @@ function  drawCircle1() {
     ctx.fillCircle(x2-40,y2+75, 20,3);
     ctx.fillStyle="red";
     ctx.fillCircle(x2+190,y2+75, 20,3);
-    ctx.drawImage('i/canv3dlogo.png',  225, 0, 150, 144, x2, y2, 150,  144,+3);
+    ctx.drawImage('i/canv3dlogo.png',  225, 0, 150, 144, x2, y2, 150,  144,-3);
     if(x2<-474){x2=w;}
     if(y2<-144){y2=h;}
 }
