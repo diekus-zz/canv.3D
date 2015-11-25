@@ -637,42 +637,12 @@ Contexts3DCanvas.prototype.setImageData = function( imageData, R, G, B, Opacity)
  */
 
 Contexts3DCanvas.prototype.createLinearGradient= function(x0, y0, x1, y1){
-    grd1 = this.ctx1.createLinearGradient(x0/2,y0,x1/2,y1);
-    grd2 =this.ctx2.createLinearGradient(x0/2,y0,x1/2,y1);
-    return new Gradient(grd1,grd2);
+    return this.ctx1.createLinearGradient(x0,y0,x1,y1);
 }
 
 
 
-/**
- * Create Class Gradient, necesary for keep working
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
-*/
 
-function Gradient(grd1,grd2){
-    this.gradient1 = grd1;
-    this.gradient2 = grd2;
- }
-
-
-
-
-/**
- * Add Gradient Color Stop
- *
- * @author Juan Acuña Silvera
- * @update 20/11/2015
- *
- * @method Contexts3DCanvas.prototype.createLinearGradient
- * @example : grd.addColorStop(0,"red")
- * @example : grd.addColorStop(1,"black")
- */
-Gradient.prototype.addColorStop = function ( percent, color){
-    this.gradient1.addColorStop( percent, color);
-    this.gradient2.addColorStop( percent, color);
-}
 
 
 
@@ -711,9 +681,7 @@ Contexts3DCanvas.prototype.createPattern= function( objt_img, style){
  */
 
 Contexts3DCanvas.prototype.createRadialGradient= function(x0, y0, r0, x1, y1, r1){
-    grd1 = this.ctx1.createRadialGradient(x0/2,y0,r0,x1/2,y1,r1);
-    grd2 = this.ctx2.createRadialGradient(x0/2,y0,r0,x1/2,y1,r1);
-    return new Gradient(grd1,grd2);
+    return this.ctx1.createRadialGradient(x0,y0,r0,x1,y1,r1);
 }
 
 
@@ -1344,7 +1312,7 @@ Contexts3DCanvas.prototype.rotate= function(angle){
  * @update 21/11/2015
  *
  * @method Contexts3DCanvas.prototype.Save
- * @example : ctx.Scale();
+ * @example : ctx.save();
  */
 
 Contexts3DCanvas.prototype.save = function(){
