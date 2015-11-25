@@ -35,7 +35,7 @@ var y2=h;
 
 function mainWallpaper(){
     drawImage1();       
-    drawCircle1();
+    drawImage2();
 }
 
 function drawMouse(mx,my){
