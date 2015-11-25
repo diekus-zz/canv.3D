@@ -744,15 +744,17 @@ Contexts3DCanvas.prototype.drawImage= function( img , sx, sy, swidth, sheight, x
     //case 6 values as input
     if( img!= undefined && sx!=undefined && sy!=undefined && swidth!=undefined && sheight!=undefined 
         && (x!=undefined||x==undefined) && y==undefined && width==undefined && height==undefined && pHorOffset==undefined){
-         if(x==undefined){
+        if(x==undefined){
             x=0;
         }
         this.drawImageCustomSize( img, sx, sy, swidth, sheight, x);
-    }else{
+    }
+    if( img!= undefined && sx!=undefined && sy!=undefined && swidth!=undefined && sheight!=undefined 
+        && x!=undefined && y!=undefined && width!=undefined && height!=undefined && (pHorOffset!=undefined || pHorOffset==undefined)){
         if(pHorOffset==undefined){
             pHorOffset=0;
         }
-        this.drawImageCustomSize( img , sx, sy, swidth, sheight, x, y, width, height, pHorOffset);
+        this.drawImageCustomImage( img , sx, sy, swidth, sheight, x, y, width, height, pHorOffset);
     }
 }
 
@@ -839,8 +841,8 @@ Contexts3DCanvas.prototype.drawImageCustomImage = function( img , sx, sy, swidth
     if(this.isCreated(img) && this.isLoaded(img)){
         this.save();
         this.scale(0.5,1);
-        this.ctx1.drawImage(this.getImage(img), sx, sy, swidth, sheight, posX-pHorOffset, posY, width, height);
-        this.ctx2.drawImage(this.getImage(img), sx, sy, swidth, sheight, posX+pHorOffset, posY, width, height);
+        this.ctx1.drawImage(this.getImage(img), sx, sy, swidth, sheight, x-pHorOffset, y, width, height);
+        this.ctx2.drawImage(this.getImage(img), sx, sy, swidth, sheight, x+pHorOffset, y, width, height);
         this.restore();
     }else{
         this.save();
@@ -849,8 +851,8 @@ Contexts3DCanvas.prototype.drawImageCustomImage = function( img , sx, sy, swidth
         imageObj.onload = function (){
             that.save();
             that.scale(0.5,1);
-            that.ctx1.drawImage(this, sx, sy, swidth, sheight, posX-pHorOffset, posY, width, height);
-            that.ctx2.drawImage(this, sx, sy, swidth, sheight, posX+pHorOffset, posY, width, height);
+            that.ctx1.drawImage(this, sx, sy, swidth, sheight, x-pHorOffset, y, width, height);
+            that.ctx2.drawImage(this, sx, sy, swidth, sheight, x+pHorOffset, y, width, height);
             that.restore();
         };
         imageObj.src = img;    
