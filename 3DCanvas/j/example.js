@@ -67,7 +67,7 @@ function drawImage1(){
     if(y>h){y=-256;}
 }
 
-function  drawCircle1() {
+function  drawImage2() {
     changeActiveCtx(0);
     x2--;
     x2--;
