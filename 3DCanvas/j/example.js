@@ -28,8 +28,8 @@ function renderFrame(){
 BENEATH THIS LINE IS A SIMPLE EXAMPLE OF STEREOSCOPIC 3D DRAWING. REPLACE WITH YOUR ACTUAL CODE.
 **/
 
-var x= -474;
-var y= -144;
+var x= -474; //width image canv3dlog.png
+var y= -144; //height image canv3dlog.png
 var x2=w;
 var y2=h;
 
@@ -72,7 +72,6 @@ function  drawCircle1() {
     ctx.fillCircle(x2-40,y2+75, 20,3);
     ctx.fillStyle="red";
     ctx.fillCircle(x2+190,y2+75, 20,3);
-    //ctx.drawImage('i/canv3dlogo.png' , sx, sy, swidth, sheight, x, y, width, height, pHorOffset);
     ctx.drawImage('i/canv3dlogo.png',  225, 0, 150, 144, x2, y2, 150,  144,+3);
     if(x2<-474){x2=w;}
     if(y2<-144){y2=h;}
