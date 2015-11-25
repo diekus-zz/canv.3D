@@ -926,7 +926,7 @@ Contexts3DCanvas.prototype.fillText = function( text, x, y, pHorOffset){
     this.save();
     this.scale(0.5,1);
     this.ctx1.fillText(text, x - pHorOffset,y);
-    this.ctx2.fillText(text, x - pHorOffset,y);
+    this.ctx2.fillText(text, x + pHorOffset,y);
     this.restore();
 }
 
@@ -1459,6 +1459,35 @@ Contexts3DCanvas.prototype.strokeRect = function( px, py, cWidth, cHeight, pHorO
     this.ctx2.strokeRect(px+pHorOffset, py, cWidth, cHeight);
     this.restore();
 }
+
+
+
+
+
+/**
+ * drawn fill text
+ *
+ * @author Juan Acuña Silvera
+ * @update 20/11/2015
+ *
+ * @method Contexts3DCanvas.prototype.fillText
+ * @example : ctx.fillText('asd',10,10,5);
+ */
+
+Contexts3DCanvas.prototype.strokeText = function( text, x, y, pHorOffset){
+    this.setProperties();
+    if(pHorOffset==undefined){
+        pHorOffset=0;
+    }
+    this.save();
+    this.scale(0.5,1);
+    this.ctx1.strokeText(text, x - pHorOffset,y);
+    this.ctx2.strokeText(text, x + pHorOffset,y);
+    this.restore();
+}
+
+
+
 
 
 
