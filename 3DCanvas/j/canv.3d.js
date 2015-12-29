@@ -1206,8 +1206,8 @@ Contexts3DCanvas.prototype.rect= function( x, y, width, height, pHorOffset){
     }
     this.save();
     this.scale(0.5,1);
-    this.ctx1.rect(20,20,150,100);
-    this.ctx2.rect
+    this.ctx1.fillRect(x-pHorOffset, y, width, height);
+    this.ctx2.fillRect(x+pHorOffset, y, width, height)
     this.restore();
 }
 
