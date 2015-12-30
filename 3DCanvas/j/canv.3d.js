@@ -1074,8 +1074,11 @@ Contexts3DCanvas.prototype.lineTo = function( x, y, pHorOffset){
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
+    this.save();
+    this.scale(0.5,1);
     this.ctx1.lineTo( x - pHorOffset, y);
     this.ctx2.lineTo( x + pHorOffset, y);
+    this.restore();
 }
 
 
