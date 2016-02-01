@@ -5,103 +5,201 @@
 //date of last modification: 20/06/2015
 //This is pre-release code. It needs cleanup and structure. Working on it. 
 /*Can manage now several sets of canvases on a page!*/
-
-//global variables
-var jsCanvas1 = null;                   // DOM element for first ACTIVE canvas
-var jsCanvas2 = null;                   // DOM element for second ACTIVE canvas
 var ctx = null;
-var ctx1 = null;                        // first ACTIVE canvas drawing context
-var ctx2 = null;                        // second ACTIVE canvas drawing context
-var jsCanvases = null;                  // DOM canvas elements for each canvas to be drawn on
-var activeDrawingCanvas = -1;           // specifies the ACTIVE drawing canvas
-var canvasNames = new Array();          // array that contains the names of the canvases that will be drawn upon. Layers of canvases
 
-//starts the 3d canvas script
-function startDuoCanvas(){
-    init('sxs3d_');
+
+
+
+
+
+
+
+
+
+
+
+/**
+ * Create Class for create Multiple Canvaces and change Context
+ *
+ * @author Juan Acuña Silvera
+ * @update 27/01/2016
+ *
+ */
+
+var DuoCanvas = function(){
+    this._inputs = arguments;
+    this._numCanvases = null;
+    this._jsCanvas1 = null;
+    this._jsCanvas2 = null;
+    this._ctx1 = null;
+    this._ctx2 = null;
+    this._jsCanvases = [];
+    this._activeDrawingCanvas = null;
+    this._canvasNames = [];
+    this._objTCanvas = [];
+    this.setCanvasNames();
 }
 
-function init() {
-    //create context
-    ctx = new Contexts3DCanvas();
-    //prepares all the canvases on the document
-    jsCanvases = new Array(canvasNames.length);
-    for (icnv = 0; icnv < canvasNames.length; icnv++) {
-        //console.log('preparing canvas ' + canvasNames[icnv] + ' clone');
-        jsCanvases[icnv] = prep3DCanvas(canvasNames[icnv], 'sxs3d_' + canvasNames[icnv]); //at this point we have an array with subarrays of 4. (canvas and clone, ctx and clone)
+
+
+
+
+
+/**
+ * Method for get type of variable
+ *
+ * @author Juan Acuña Silvera
+ * @update 29/01/2016
+ * return : 'function', 'object', 'array','string', 'number', 'boolean', or 'undefined'
+ */
+
+DuoCanvas.prototype.getType = function( variable ){
+    return ({}).toString.call(variable).match(/\s([a-zA-Z]+)/)[1].toLowerCase();
+}
+
+
+
+
+
+
+/**
+ * Method create autmatically canvases Names
+ *
+ * @author Juan Acuña Silvera
+ * @update 27/01/2016
+ *
+ */
+
+DuoCanvas.prototype.setCanvasNames = function(){
+    if(this._inputs.length>1){
+        this._numCanvases = this._inputs.length;
+        for (var i = 0; i < this._numCanvases; i++) {
+            this._canvasNames.push( this._inputs[i].toString() );
+        }
+    }else{
+        this._numCanvases = this._inputs[0];
+        for (var i = 0; i < this._numCanvases; i++) {
+            this._canvasNames.push( 'cnv'.concat(i+1) );
+        }
     }
-    changeActiveCtx(0); // first *SET* canvas (0 and 1)
-    //main 
-    sxs3dcnv_main();
+    this.startDuoCanvas();
 }
 
-//prepares and initializes canvases for side by side drawing.
-//returns an array with both canvases
-function prep3DCanvas(pCnvName1, pCnvName2) {
-    //create elements canvas
+
+
+
+
+
+/**
+ * Method create context and all couple of canvases
+ *
+ * @author Juan Acuña Silvera
+ * @update 27/01/2016
+ *
+ */
+
+DuoCanvas.prototype.startDuoCanvas = function(){
+    ctx = new Contexts3DCanvas();
+    for (var i = 0; i < this._canvasNames.length; i++) {
+        this.createCoupleCanvases(i);
+    }
+    this.changeContext(0);
+    mainFunction(this);
+}
+
+
+
+
+
+
+/**
+ * Method create couple of canvases , original + clone
+ *
+ * @author Juan Acuña Silvera
+ * @update 27/01/2016
+ *
+ */
+
+DuoCanvas.prototype.createCoupleCanvases = function(i){
+    this._objTCanvas = [];
     var canv1 = document.createElement('canvas');
     var canv2 = document.createElement('canvas');
     //asign id's to canvaces
-    canv1.id = pCnvName1;    
-    canv2.id = pCnvName2;
+    canv1.id = this._canvasNames[i];    
+    canv2.id = 'sxs3d_'.concat(this._canvasNames[i]);
     //add canvaces to html index
     document.getElementById('dobleCnv').appendChild(canv1); 
     document.getElementById('dobleCnv').appendChild(canv2); 
     //gets elements as var
-    var tjsCanvas1 = document.getElementById(pCnvName1);
-    var tjsCanvas2 = document.getElementById(pCnvName2);
+    this._tjsCanvas1 = document.getElementById(this._canvasNames[i]);
+    this._tjsCanvas2 = document.getElementById('sxs3d_'.concat(this._canvasNames[i]));
     //gets 2d drawing context for the canvases
-    var tctx1 = tjsCanvas1.getContext('2d');
-    var tctx2 = tjsCanvas2.getContext('2d');
+    this._tctx1 = this._tjsCanvas1.getContext('2d');
+    this._tctx2 = this._tjsCanvas2.getContext('2d');
     //size
-    tjsCanvas1.width = window.innerWidth / 2;
-    tjsCanvas2.width = window.innerWidth / 2;
-    tjsCanvas1.height = window.innerHeight;
-    tjsCanvas2.height = window.innerHeight;
+    this._tjsCanvas1.width = window.innerWidth / 2;
+    this._tjsCanvas2.width = window.innerWidth / 2;
+    this._tjsCanvas1.height = window.innerHeight;
+    this._tjsCanvas2.height = window.innerHeight;
     //position
-    tjsCanvas1.style.position = 'absolute';
-    tjsCanvas2.style.position = 'absolute';
-    tjsCanvas1.style.left = '0px';
-    tjsCanvas2.style.left = window.innerWidth / 2 + 'px';
-    tjsCanvas1.style.top = '0px';
-    tjsCanvas2.style.top = '0px';
-    var objTCanvas = new Array(4);
-    objTCanvas[0] = tjsCanvas1;                     //original canvas
-    objTCanvas[2] = tjsCanvas2;                     //clone canvas
-    objTCanvas[1] = tctx1;                          //original context
-    objTCanvas[3] = tctx2;                          //clone context
-    return objTCanvas;
+    this._tjsCanvas1.style.position = 'absolute';
+    this._tjsCanvas2.style.position = 'absolute';
+    this._tjsCanvas1.style.left = '0px';
+    this._tjsCanvas2.style.left = window.innerWidth / 2 + 'px';
+    this._tjsCanvas1.style.top = '0px';
+    this._tjsCanvas2.style.top = '0px';
+    //vector temporal
+    this._objTCanvas.push(this._tjsCanvas1);
+    this._objTCanvas.push(this._tctx1);
+    this._objTCanvas.push(this._tjsCanvas2);
+    this._objTCanvas.push(this._tctx2);
+    //añadir
+    this._jsCanvases.push( this._objTCanvas );
 }
 
-//changes the active *SET* of drawing context. By default it is the first canvas in the array
-function changeActiveCtx(n) {
+
+
+
+
+
+/**
+ * Method change actual context
+ *
+ * @author Juan Acuña Silvera
+ * @update 27/01/2016
+ *
+ */
+
+DuoCanvas.prototype.changeContext = function(n){
     try {
-        if (n < jsCanvases.length) {
-            jsCanvas1 = jsCanvases[n][0];
-            jsCanvas2 = jsCanvases[n][2];
-            this.ctx1 = this.jsCanvases[n][1];
-            this.ctx2 = this.jsCanvases[n][3];
-            this.activeDrawingCanvas = n;
+        if (n < this._jsCanvases.length) {
+            this._jsCanvas1 = this._jsCanvases[n][0];
+            this._jsCanvas2 = this._jsCanvases[n][2];
+            this._ctx1 = this._jsCanvases[n][1];
+            this._ctx2 = this._jsCanvases[n][3];
+            this._activeDrawingCanvas = n;
         }
         else {
-            jsCanvas1 = jsCanvases[0][0];
-            jsCanvas2 = jsCanvases[0][2];
-            this.ctx1 = this.jsCanvases[0][1];
-            this.ctx2 = this.jsCanvases[0][3];
-            this.activeDrawingCanvas = 0;
+            this._jsCanvas1 = this._jsCanvases[0][0];
+            this._jsCanvas2 = this._jsCanvases[0][2];
+            this._ctx1 = this._jsCanvases[0][1];
+            this._ctx2 = this._jsCanvases[0][3];
+            this._activeDrawingCanvas = 0;
         }
     } catch (e) {
         console.log('current drawing context nonexistent.');
     } finally {
-        ctx.getProperties(ctx1,ctx2);
+        ctx.getProperties(this._ctx1,this._ctx2);
     }
 }
 
 
-//converts from degrees to radians
-function deg2Rad(degrees) {
-    return degrees * Math.PI / 180;
-}
+
+
+
+
+
+
 
 
 
@@ -189,7 +287,7 @@ window.cancelAnimFrame = (function(){
  *
  */
 
-function Contexts3DCanvas(){
+var Contexts3DCanvas = function() {
     this.ctx1=null;
     this.ctx2=null;
     this.canvas1=null;
@@ -519,6 +617,9 @@ Contexts3DCanvas.prototype.clearRect = function( px, py, cWidth, cHeight, pHorOf
 
 Contexts3DCanvas.prototype.clearRectColor = function( px, py, cWidth, cHeight, color, pHorOffset){
     this.setProperties();
+    if(px==undefined){
+        px='white';
+    }
     if(px!=undefined && py==undefined && cWidth==undefined && cHeight==undefined && color==undefined && pHorOffset==undefined){
         color=px;
         px=0;
@@ -696,7 +797,7 @@ Contexts3DCanvas.prototype.createRadialGradient= function(x0, y0, r0, x1, y1, r1
  * @update 20/11/2015
  *
  * @method Contexts3DCanvas.prototype.DrawImage
- * @example : ctx.drawImage(img,90,130,50,60,10,10,50,60);
+ * @example : ctx.drawImage(img,90,130,50,60,10,10,50,60); or ctx.drawImage(img,90,130,0);
  */
 
 Contexts3DCanvas.prototype.drawImage= function( img , sx, sy, swidth, sheight, x, y, width, height, pHorOffset){
@@ -843,6 +944,13 @@ Contexts3DCanvas.prototype.drawImageCustomImage = function( img , sx, sy, swidth
 
 Contexts3DCanvas.prototype.fillRect = function( px, py, cWidth, cHeight, pHorOffset){
     this.setProperties();
+    if(px==undefined && py==undefined && cWidth==undefined && cHeight==undefined && pHorOffset==undefined){
+        px=0;
+        py=0;
+        cWidth=w;
+        cHeight=h;
+        pHorOffset=0;
+    }
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
@@ -1074,8 +1182,11 @@ Contexts3DCanvas.prototype.lineTo = function( x, y, pHorOffset){
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
+    this.save();
+    this.scale(0.5,1);
     this.ctx1.lineTo( x - pHorOffset, y);
     this.ctx2.lineTo( x + pHorOffset, y);
+    this.restore();
 }
 
 
@@ -1109,12 +1220,15 @@ Contexts3DCanvas.prototype.measureText = function( text){
  */
 
 Contexts3DCanvas.prototype.moveTo = function( x, y, pHorOffset){
-    this.setProperties();
+     this.setProperties();
     if(pHorOffset==undefined){
         pHorOffset=0;
     }
+    this.save();
+    this.scale(0.5,1);
     this.ctx1.moveTo( x - pHorOffset, y);
     this.ctx2.moveTo( x + pHorOffset, y);
+    this.restore();
 }
 
 
@@ -1206,8 +1320,8 @@ Contexts3DCanvas.prototype.rect= function( x, y, width, height, pHorOffset){
     }
     this.save();
     this.scale(0.5,1);
-    this.ctx1.rect(20,20,150,100);
-    this.ctx2.rect
+    this.ctx1.fillRect(x-pHorOffset, y, width, height);
+    this.ctx2.fillRect(x+pHorOffset, y, width, height)
     this.restore();
 }
 
@@ -1439,7 +1553,7 @@ Contexts3DCanvas.prototype.strokeRect = function( px, py, cWidth, cHeight, pHorO
  * @update 20/11/2015
  *
  * @method Contexts3DCanvas.prototype.fillText
- * @example : ctx.fillText('asd',10,10,5);
+ * @example : ctx.strokeText('asd',10,10,5);
  */
 
 Contexts3DCanvas.prototype.strokeText = function( text, x, y, pHorOffset){
@@ -1736,3 +1850,9 @@ Images3DCanvas.prototype.loadImage = function(){
 
 
 
+
+
+//converts from degrees to radians
+function deg2Rad(degrees) {
+    return degrees * Math.PI / 180;
+}
