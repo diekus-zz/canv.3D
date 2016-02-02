@@ -5,7 +5,7 @@ var D; //handle main game
 var C;
 //starts EVERYTHING. Main entrance point
 window.onload = function () {
-    //document.body.style.cursor = 'none';
+    
     //create duo canvases
     //EXAMPLE FOR CREATE YOUR DUO CANVAS
     //OPTION1 ===>> D = new DuoCanvas(4)  -->> create 4 layers(couples) of canvases, names autoasigned enumerated
