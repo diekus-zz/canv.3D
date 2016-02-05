@@ -18,7 +18,7 @@ var mainFunction = function(duoCanvas){
     //start your code ... 
 
     //EXAMPLE FOR CHANGE ACTIVE CONTEXT
-    //OPTION1 ===>>   D.changeContext(0);   'D'->> name set on window.onload for duocanvas
+    //OPTION1 ===>>   C.changeContext(0);   'D'->> name set on window.onload for duocanvas
     //OPTION2 ===>>   duoCanvas.changeContext(0);
     //can add request animation ,etc....
     C = duoCanvas;
