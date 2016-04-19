@@ -1,28 +1,41 @@
 var w = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
 var h = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-
+var G; //handle duo canvas
+var D; //handle main game
+var C;
 //starts EVERYTHING. Main entrance point
-window.onload =
-//$(document).ready(
-    function () {
-    //ready canvas names
-    canvasNames[0] = 'cnv';
-    canvasNames[1] = 'cursor';
-    startDuoCanvas(); //do not remove this line
-    document.body.style.cursor = 'none';
-    this.onmousemove = function(event){ 
-        drawMouse(event.clientX,event.clientY);
-    };
-};
+window.onload = function () {
+    
+    //create duo canvases
+    //EXAMPLE FOR CREATE YOUR DUO CANVAS
+    //OPTION1 ===>> D = new DuoCanvas(4)  -->> create 4 layers(couples) of canvases, names autoasigned enumerated
+    //OPTION2 ===>> D = new DuoCanvas('Background','Cards','Messages','Mouse');  -->> create 4 layers(couples) of canvases, names choosed
+    D = new DuoCanvas(4);
 
-function sxs3dcnv_main() {         // for attaching events or loading assets before starting
-    renderFrame(); //everythin in this function will loop
 }
+
+var mainFunction = function(duoCanvas){
+    //start your code ... 
+
+    //EXAMPLE FOR CHANGE ACTIVE CONTEXT
+    //OPTION1 ===>>   C.changeContext(0);   'c'->> name set on window.onload for duocanvas
+    //OPTION2 ===>>   duoCanvas.changeContext(0);
+    //can add request animation ,etc....
+    C = duoCanvas;
+    //EXAMPLE REQUEST ANIMATION FRAME:
+    renderFrame(); //--->> call ur function renderframe
+
+}
+
+
+//CREATE FUNCTION FOR ANIMATION
 
 function renderFrame(){
     mainWallpaper();
     requestAnimFrame(renderFrame);
 }
+
+
 
 /**
 BENEATH THIS LINE IS A SIMPLE EXAMPLE OF STEREOSCOPIC 3D DRAWING. REPLACE WITH YOUR ACTUAL CODE.
@@ -39,7 +52,7 @@ function mainWallpaper(){
 }
 
 function drawMouse(mx,my){
-    changeActiveCtx(1);
+    C.changeContext(1);
     ctx.clearRect();//if not define, default all window
     ctx.fillStyle='yellow';
     ctx.globalAlpha=0.5;
@@ -51,7 +64,7 @@ function drawMouse(mx,my){
 function drawImage1(){
     x++;
     y++;
-    changeActiveCtx(0);
+    C.changeContext(0);
     ctx.globalAlpha=0.1;
     ctx.clearRectColor('black');//if not define nothing, default all window
     ctx.globalAlpha=1;
@@ -68,7 +81,7 @@ function drawImage1(){
 }
 
 function  drawImage2() {
-    changeActiveCtx(0);
+    C.changeContext(0);
     x2--;
     x2--;
     y2--;
@@ -82,3 +95,6 @@ function  drawImage2() {
     if(y2<-144){y2=h;}
 }
 
+window.onmousemove = function(event){ 
+    drawMouse(event.clientX,event.clientY);
+ };
